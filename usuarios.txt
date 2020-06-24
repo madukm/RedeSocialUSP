@@ -1,0 +1,44 @@
+usuario: beltrano
+genero: masculino
+idade: 19
+filme_predileto: vingadores
+local_predileto: bar do zé
+livro: 1984
+hobby: cinema
+esporte: corrida
+id: 1
+pedidos: 2
+amizades:
+usuario: ciclano
+genero: feminino
+idade: 21
+filme_predileto: prometheus
+local_predileto: praça xv
+livro: feliz ano velho
+hobby: leitura
+esporte: ping pong
+id: 2
+pedidos:
+amizades:
+usuario: bubu
+genero: feminino
+idade: 21
+filme_predileto: prometheus
+local_predileto: praça xv
+livro: feliz ano velho
+hobby: leitura
+esporte: ping pong
+id: 3
+pedidos:
+amizades:
+usuario: matheushw
+genero: masculino
+idade: 19
+filme_predileto: interestelar
+local_predileto: icmc
+livro: nenhum
+hobby: programar
+esporte: handball
+id: 4
+pedidos: 4
+amizades: 2 3 1
