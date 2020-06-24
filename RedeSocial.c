@@ -33,6 +33,7 @@ int main () {
     FILE *bd = fopen("usuarios.txt", "r");
     Grafo *grafo = inicializar(100);
     carregarNaMemoria(bd, grafo);
+    ligarAmizadesPedidos(grafo);
     fclose(bd);
 
     if(operacao == 1){

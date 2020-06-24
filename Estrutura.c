@@ -54,7 +54,8 @@ LISTA* criar_lista(){ //Inicializar uma lista.
 }
 
 VERTICE* criar_vertice(char *usuario, char *genero, char *filme_predileto , char *local_predileto,
-char *hobby, char * livro, char *esporte, int idade, int id){ //Inicializando um vértice.
+char *hobby, char * livro, char *esporte, int idade, int id, char *solicitacoes, char *amizades){ 
+    //Inicializando um vértice.
     VERTICE* vert = (VERTICE*)malloc(sizeof(VERTICE));
     vert->usuario = (char*) malloc(sizeof(char) * (strlen(usuario) + 1));
     strcpy(vert->usuario, usuario);
@@ -72,6 +73,10 @@ char *hobby, char * livro, char *esporte, int idade, int id){ //Inicializando um
     strcpy(vert->esporte, esporte);
     vert->idade = idade;
     vert->id = id;
+    vert->solicitacoes = (char*) malloc(sizeof(char) * (strlen(solicitacoes) + 1));
+    strcpy(vert->solicitacoes, solicitacoes);
+    vert->amizades = (char*) malloc(sizeof(char) * (strlen(amizades) + 1));
+    strcpy(vert->amizades, amizades);
     vert->prox = NULL;
     return vert; //Retornando um ponteiro para um vértice inicializado.
 }
@@ -94,6 +99,10 @@ VERTICE* copy_vertice(VERTICE *vertice){ //Copia os dados de um vértice.
     strcpy(vert->esporte, vertice->esporte);
     vert->idade = vertice->idade;
     vert->id = vertice->id;
+    vert->solicitacoes = (char*) malloc(sizeof(char) * (strlen(vertice->solicitacoes) + 1));
+    strcpy(vert->solicitacoes, vertice->solicitacoes);
+    vert->amizades = (char*) malloc(sizeof(char) * (strlen(vertice->amizades) + 1));
+    strcpy(vert->amizades, vertice->amizades);
     vert->prox = NULL;
     return vert; //Retornando um ponteiro para um vértice inicializado.
 }
@@ -346,13 +355,25 @@ void carregarNaMemoria(FILE *file, Grafo* grafo) { //Carregar informações do a
         char *esporte = getPalavra(aux_leitura, 2, getQuntidadePalavras(aux_leitura));
         aux_leitura = readline(file);
         int id = atoi(getPalavra(aux_leitura, 2, getQuntidadePalavras(aux_leitura)));
+        char *solicitacoes = readline(file);
+        char *amizades = readline(file);
 
         inserir_vertex_lista(grafo->all, criar_vertice(usuario, genero, filme_predileto, local_predileto, 
-        hobby, livro, esporte, idade, id)); 
-        char *amigos = readline(file);
-        char *solicitacoes = readline(file);
+        hobby, livro, esporte, idade, id, solicitacoes, amizades)); 
+        // for (int i=0;i<getQuntidadePalavras(solicitacoes)-1;i++){
+        //     char *copy = malloc(strlen(solicitacoes) + 1);
+        //     strcpy(copy, solicitacoes);
+        // }
+
+        // for (int i=1;i<=getQuntidadePalavras(amizades)-1;i++){
+        //     char *copy = malloc(strlen(amizades) + 1);
+        //     strcpy(copy, amizades);
+        //     atoi(getPalavra(copy, i+1, i+1));
+        //     find_lista();
+        //     inserir_vertex_lista();
+        // }
         limpar_atributos(usuario, genero, filme_predileto, local_predileto, hobby, livro, 
-        esporte, amigos, solicitacoes);
+        esporte, amizades, solicitacoes);
     }
 
     return;
@@ -418,4 +439,27 @@ void registrar(FILE *bd, Grafo *grafo, char **usuario){ //Registar o usuário na
     
     printf("Registrado com sucesso!\n");
     fclose(bd);
+}
+
+void ligarAmizadesPedidos(Grafo *grafo){ //Criar uma aresta entre todas as amizades e entre os pedidos.
+
+    VERTICE* atual = grafo->all->inicial; //Inicializando "atual" como o primeiro vértice da lista.
+	while (atual) { //Percorrendo cada vértice da lista.
+        for (int i=1;i<=getQuntidadePalavras(atual->amizades)-1;i++){
+            char *copy = malloc(strlen(atual->amizades) + 1);
+            strcpy(copy, atual->amizades);
+            inserir_vertex_lista(grafo->v[atual->id], copy_vertice(find_lista(grafo->all, 
+            atoi(getPalavra(copy, i+1, i+1)))));
+        }
+
+        for (int i=1;i<=getQuntidadePalavras(atual->solicitacoes)-1;i++){
+            char *copy = malloc(strlen(atual->solicitacoes) + 1);
+            strcpy(copy, atual->solicitacoes);
+            inserir_vertex_lista(grafo->solicitacoes[atual->id], copy_vertice(find_lista(grafo->all, 
+            atoi(getPalavra(copy, i+1, i+1)))));
+        }
+        
+		atual = atual->prox; //Indo para o proximo vértice.
+	}
+
 }

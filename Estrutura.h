@@ -25,6 +25,8 @@ typedef struct aux{ //Vértice
     char *esporte;
     int idade;
     int id;
+    char *solicitacoes;
+    char *amizades;
     struct aux *prox;
 } VERTICE;
 
@@ -43,7 +45,7 @@ typedef struct { //TAD Grafo.
 char *readline(FILE *stream); //Ler e alocar memória de uma linha inputada.
 LISTA* criar_lista(); //Inicializar uma lista.
 VERTICE* criar_vertice(char *usuario, char *genero, char *filme_predileto , char *local_predileto,
-char *hobby, char * livro, char *esporte, int idade, int id); //Inicializa um vértice.
+char *hobby, char * livro, char *esporte, int idade, int id, char *solicitacoes, char *amizades); //Inicializa um vértice.
 VERTICE* copy_vertice(VERTICE *vertice); //Copia os dados de um vértice.
 VERTICE* find_lista(LISTA* list, int ident); //Procurar elemento na lista.
 VERTICE* find_lista_name(LISTA* list, char* user); //Procurar elemento na lista pelo nome de usuário.
@@ -67,5 +69,6 @@ void limpar_atributos(char *usuario, char *genero, char *filme_predileto , char 
 char *hobby, char * livro, char *esporte, char *amigos, char *solicitacoes); //Limpar memória.
 void carregarNaMemoria(FILE *file, Grafo* grafo);  //Carregar informações do arquivo na memória.
 void registrar(FILE *bd, Grafo *grafo, char **usuario); //Registar o usuário na rede social.
+void ligarAmizadesPedidos(Grafo *grafo); //Criar uma aresta entre todas as amizades e entre os pedidos.
 
 #endif

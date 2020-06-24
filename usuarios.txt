@@ -40,5 +40,5 @@ livro: nenhum
 hobby: programar
 esporte: handball
 id: 4
-pedidos: 
-amizades: 
+pedidos: 4
+amizades: 2 3 1
