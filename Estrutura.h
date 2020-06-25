@@ -25,6 +25,7 @@ typedef struct aux{ //Vértice
     char *esporte;
     int idade;
     int id;
+    int afinidade;
     char *solicitacoes;
     char *amizades;
     struct aux *prox;
@@ -58,7 +59,7 @@ void printar_lista(LISTA* list); //Imprimir a lista.
 void printVertice(VERTICE *vertice); //Printar as informações do vértice.
 void limpar_lista(LISTA* list); //Desalocar memória previamente alocada.
 
-Grafo* inicializar (int n); //Inicializa a lista de adjacência.
+Grafo* inicializar (); //Inicializa a lista de adjacência.
 // void ligar_vertices(Grafo* a, int u, int v); //Liga dois vértices.
 void ligar_vertices(Grafo* a, VERTICE *u, VERTICE *v); //Ligar dois vértices.
 void desligar_vertices(Grafo* a, int u, int v); //Retira ligação entre dois vértices.
@@ -76,5 +77,6 @@ void sugerirAmizades(Grafo *grafo, VERTICE *vert); //Checa faz um match com usu�
 void enviarSolicitacao(Grafo *grafo, int id, char* usuario, FILE *bd); //Enviar solicitação de amizade para um usuário.
 void concatenar(char *dest, char *a); //Concatenar strings.
 void writeFile(FILE *bd, Grafo *grafo); //Escrever dados atualizados no arquivo.
+void refresgGrafo(Grafo **grafo, FILE *bd);  //Atualiza o grafo com as informações do arquivo.
 
 #endif

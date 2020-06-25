@@ -7,7 +7,7 @@ livro: 1984
 hobby: cinema
 esporte: corrida
 id: 1
-pedidos: 2
+pedidos: 2 4
 amizades:
 usuario: ciclano
 genero: feminino
@@ -19,7 +19,7 @@ hobby: leitura
 esporte: ping pong
 id: 2
 pedidos:
-amizades:
+amizades: 4
 usuario: bububia
 genero: feminino
 idade: 21
@@ -40,5 +40,5 @@ livro: nenhum
 hobby: programar
 esporte: handball
 id: 4
-pedidos: 4
-amizades: 2 3 1
+pedidos:
+amizades: 2 1

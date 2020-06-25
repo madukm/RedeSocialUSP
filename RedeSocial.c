@@ -31,10 +31,9 @@ int main () {
     }
 
     char *usuario;
-    FILE *bd = fopen("usuarios.txt", "r");
-    Grafo *grafo = inicializar(100);
+    FILE *bd;
+    Grafo *grafo = inicializar();
     carregarNaMemoria(bd, grafo);
-    fclose(bd);
 
     if(operacao == 1){
         do{
@@ -63,6 +62,8 @@ int main () {
         } else {
             printf("Escolha uma das opções:\n");
         }
+
+        refresgGrafo(&grafo, bd);
         printf("1 - Listar estudantes\n");
         printf("2 - Sugerir amizades\n");
         printf("3 - Checar amizades\n");

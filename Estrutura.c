@@ -33,11 +33,11 @@ char *readline(FILE *stream) {
 	return (pos == 1)? NULL:string;
 }
 
-Grafo* inicializar (int n) { //Inicializando a lista de adjacência.
+Grafo* inicializar () { //Inicializando a lista de adjacência.
     Grafo* a = (Grafo*) malloc(sizeof(Grafo)); //Alocando memória.
     a->n_elementos = 0; //Guardando número de elementos.
 
-    for (int i=0; i < n; i++){
+    for (int i=0; i < MAXN; i++){
         a->v[i] = criar_lista(); //Inicializando uma lista para o i-ésimo elemento.
         a->solicitacoes[i] = criar_lista();
     }
@@ -260,7 +260,16 @@ void print_grafo(Grafo* a) { //Imprimir a matriz de adjacência.
 void limpar_lista(LISTA* list){ //Desalocar memória previamente alocada.
     VERTICE* atual = list->inicial; //Inicializando "atual" como o primeiro vértice da lista.
 	while (atual) { //Percorrendo cada vértice da lista.
-        free(atual); //Liberando memória.
+        free(atual->usuario);
+        free(atual->genero);
+        free(atual->filme_predileto);
+        free(atual->local_predileto);
+        free(atual->hobby);
+        free(atual->livro);
+        free(atual->esporte);
+        free(atual->solicitacoes);
+        free(atual->amizades);
+        free(atual);
         atual = atual->prox; //Indo para o próximo elemento.
 	}
     atual = NULL; //Segurança.
@@ -269,9 +278,11 @@ void limpar_lista(LISTA* list){ //Desalocar memória previamente alocada.
 }
 
 void limpar_memoria(Grafo* a){ //Desalocar memória previamente alocada.
-    for (int i=0;i<a->n_elementos;i++){ //Percorrendo a lista de adjacência.
+    for (int i=0;i<MAXN;i++){ //Percorrendo a lista de adjacência.
         limpar_lista(a->v[i]); //Livrando memória da i-ésima lista.
+        limpar_lista(a->solicitacoes[i]); //Livrando memória da i-ésima lista.
     }
+    limpar_lista(a->all); //Livrando memória da lista principal.
     free(a); //Livrando memória.
     a = NULL; //Segurança.
 }
@@ -347,9 +358,12 @@ char *hobby, char * livro, char *esporte, char *amigos, char *solicitacoes){ //L
 }
 
 void carregarNaMemoria(FILE *file, Grafo* grafo) { //Carregar informações do arquivo na memória.
+
+    int contador = 0;
+    if(file!=NULL) fclose(file);
+    file = fopen("usuarios.txt", "r");
     char *aux_leitura; //Vai receber cada linha do arquivo.
     while((aux_leitura = readline(file)) != NULL){ 
-
         char *usuario = getPalavra(aux_leitura, 2, getQuntidadePalavras(aux_leitura));
         aux_leitura = readline(file);
         char *genero = getPalavra(aux_leitura, 2, getQuntidadePalavras(aux_leitura));
@@ -369,6 +383,8 @@ void carregarNaMemoria(FILE *file, Grafo* grafo) { //Carregar informações do a
         int id = atoi(getPalavra(aux_leitura, 2, getQuntidadePalavras(aux_leitura)));
         char *solicitacoes = readline(file);
         char *amizades = readline(file);
+        contador++;
+        grafo->n_elementos = contador;
 
         inserir_vertex_lista(grafo->all, criar_vertice(usuario, genero, filme_predileto, local_predileto, 
         hobby, livro, esporte, idade, id, solicitacoes, amizades)); 
@@ -377,7 +393,10 @@ void carregarNaMemoria(FILE *file, Grafo* grafo) { //Carregar informações do a
         esporte, amizades, solicitacoes);
     }
 
+
     ligarAmizadesPedidos(grafo);
+
+    fclose(file);
 
     return;
 }
@@ -551,7 +570,7 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario, FILE *bd) { //Enviar
             char id_char[10];
             sprintf(id_char, " %d", user->id);
             concatenar(atual->solicitacoes, id_char);
-            inserir_vertex_lista(grafo->solicitacoes[id], user);
+            inserir_vertex_lista(grafo->solicitacoes[id], copy_vertice(user));
         }
 
         atual = atual->prox; //Indo para o proximo vértice.
@@ -565,4 +584,10 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario, FILE *bd) { //Enviar
 void concatenar(char *dest, char *a){ //Concatenar strings.
     dest = (char *) realloc(dest, sizeof(char) * (strlen(a) + 1));
     strcat(dest, a);
+}
+
+void refresgGrafo(Grafo **grafo, FILE *bd) { //Atualiza o grafo com as informações do arquivo.
+    limpar_memoria(*grafo);
+    *grafo = inicializar();
+    carregarNaMemoria(bd, *grafo);
 }
