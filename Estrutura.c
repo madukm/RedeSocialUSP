@@ -357,11 +357,10 @@ char *hobby, char * livro, char *esporte, char *amigos, char *solicitacoes){ //L
     free(solicitacoes);
 }
 
-void carregarNaMemoria(FILE *file, Grafo* grafo) { //Carregar informações do arquivo na memória.
+void carregarNaMemoria(Grafo* grafo) { //Carregar informações do arquivo na memória.
 
     int contador = 0;
-    if(file!=NULL) fclose(file);
-    file = fopen("usuarios.txt", "r");
+    FILE *file = fopen("usuarios.txt", "r");
     char *aux_leitura; //Vai receber cada linha do arquivo.
     while((aux_leitura = readline(file)) != NULL){ 
         char *usuario = getPalavra(aux_leitura, 2, getQuntidadePalavras(aux_leitura));
@@ -393,7 +392,6 @@ void carregarNaMemoria(FILE *file, Grafo* grafo) { //Carregar informações do a
         esporte, amizades, solicitacoes);
     }
 
-
     ligarAmizadesPedidos(grafo);
 
     fclose(file);
@@ -401,7 +399,7 @@ void carregarNaMemoria(FILE *file, Grafo* grafo) { //Carregar informações do a
     return;
 }
 
-void registrar(FILE *bd, Grafo *grafo, char **usuario){ //Registar o usuário na rede social.
+void registrar(Grafo *grafo, char **usuario){ //Registar o usuário na rede social.
     printf("Escolha um nome de usuário: ");
     scanf("\n");
     *usuario = readline(stdin);
@@ -434,7 +432,7 @@ void registrar(FILE *bd, Grafo *grafo, char **usuario){ //Registar o usuário na
     scanf("\n");
     char *esporte = readline(stdin);
     
-    bd = fopen("usuarios.txt", "a");
+    FILE *bd = fopen("usuarios.txt", "a");
     fputs("\nusuario: ", bd);
     fputs(*usuario, bd);
     fputs("\ngenero: ", bd);
@@ -514,10 +512,9 @@ void sugerirAmizades(Grafo *grafo, VERTICE *vert) { //Checa faz um match com usu
 	}
 }
 
-void writeFile(FILE *bd, Grafo *grafo) { //Escrever dados atualizados no arquivo.
-    if(bd != NULL) fclose(bd);
+void writeFile(Grafo *grafo) { //Escrever dados atualizados no arquivo.
 
-    bd = fopen("usuarios.txt", "r+");
+    FILE *bd = fopen("usuarios.txt", "r+");
 
     VERTICE* atual = grafo->all->inicial; //Inicializando "atual" como o primeiro vértice da lista.
 	while (atual) { //Percorrendo cada vértice da lista.
@@ -556,7 +553,7 @@ void writeFile(FILE *bd, Grafo *grafo) { //Escrever dados atualizados no arquivo
     fclose(bd);
 }
 
-void enviarSolicitacao(Grafo *grafo, int id, char* usuario, FILE *bd) { //Enviar solicitação de amizade para um usuário.
+void enviarSolicitacao(Grafo *grafo, int id, char* usuario) { //Enviar solicitação de amizade para um usuário.
 
     VERTICE *user = find_lista_name(grafo->all, usuario);
     VERTICE *atual = grafo->all->inicial; //Inicializando "atual" como o primeiro vértice da lista.
@@ -576,7 +573,7 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario, FILE *bd) { //Enviar
         atual = atual->prox; //Indo para o proximo vértice.
 	}
 
-    writeFile(bd, grafo);
+    writeFile(grafo);
     printf("Solicitação enviada :)\n");
     whaitEnter();
 }
@@ -586,8 +583,8 @@ void concatenar(char *dest, char *a){ //Concatenar strings.
     strcat(dest, a);
 }
 
-void refresgGrafo(Grafo **grafo, FILE *bd) { //Atualiza o grafo com as informações do arquivo.
+void refreshGrafo(Grafo **grafo) { //Atualiza o grafo com as informações do arquivo.
     limpar_memoria(*grafo);
     *grafo = inicializar();
-    carregarNaMemoria(bd, *grafo);
+    carregarNaMemoria(*grafo);
 }

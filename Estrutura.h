@@ -69,14 +69,14 @@ char *getPalavra(char *frase, int indexPalavra, int limit);  //Retorna a palvra 
 int getQuntidadePalavras(char* frase);  //Conta quantas palavras existem ao todo na string "frase".
 void limpar_atributos(char *usuario, char *genero, char *filme_predileto , char *local_predileto,
 char *hobby, char * livro, char *esporte, char *amigos, char *solicitacoes); //Limpar memória.
-void carregarNaMemoria(FILE *file, Grafo* grafo);  //Carregar informações do arquivo na memória.
-void registrar(FILE *bd, Grafo *grafo, char **usuario); //Registar o usuário na rede social.
+void carregarNaMemoria(Grafo* grafo);  //Carregar informações do arquivo na memória.
+void registrar(Grafo *grafo, char **usuario); //Registar o usuário na rede social.
 void ligarAmizadesPedidos(Grafo *grafo); //Criar uma aresta entre todas as amizades e entre os pedidos.
 void whaitEnter(); //Standby
 void sugerirAmizades(Grafo *grafo, VERTICE *vert); //Checa faz um match com usuários da rede.
-void enviarSolicitacao(Grafo *grafo, int id, char* usuario, FILE *bd); //Enviar solicitação de amizade para um usuário.
+void enviarSolicitacao(Grafo *grafo, int id, char* usuario); //Enviar solicitação de amizade para um usuário.
 void concatenar(char *dest, char *a); //Concatenar strings.
-void writeFile(FILE *bd, Grafo *grafo); //Escrever dados atualizados no arquivo.
-void refresgGrafo(Grafo **grafo, FILE *bd);  //Atualiza o grafo com as informações do arquivo.
+void writeFile(Grafo *grafo); //Escrever dados atualizados no arquivo.
+void refreshGrafo(Grafo **grafo);  //Atualiza o grafo com as informações do arquivo.
 
 #endif

@@ -31,9 +31,8 @@ int main () {
     }
 
     char *usuario;
-    FILE *bd;
     Grafo *grafo = inicializar();
-    carregarNaMemoria(bd, grafo);
+    carregarNaMemoria(grafo);
 
     if(operacao == 1){
         do{
@@ -46,10 +45,9 @@ int main () {
             printf("Usuário inválido\n");
         } while (1);
         printf("Logado com sucesso!\n");
-        // printar_lista(grafo->all);
 
     } else if(operacao == 2) {
-        registrar(bd, grafo, &usuario);
+        registrar(grafo, &usuario);
     }
 
     int flag_loged = 0;
@@ -63,7 +61,7 @@ int main () {
             printf("Escolha uma das opções:\n");
         }
 
-        refresgGrafo(&grafo, bd);
+        refreshGrafo(&grafo);
         printf("1 - Listar estudantes\n");
         printf("2 - Sugerir amizades\n");
         printf("3 - Checar amizades\n");
@@ -89,7 +87,7 @@ int main () {
                 int index;
                 printf("Digite o ID da pessoa que você quer adicionar: ");
                 scanf("%d", &index);
-                enviarSolicitacao(grafo, index, usuario, bd);
+                enviarSolicitacao(grafo, index, usuario);
                 // printar_lista(grafo->all);
             }
         } else if(operacao == 5){ //Mostrar o perfil.
