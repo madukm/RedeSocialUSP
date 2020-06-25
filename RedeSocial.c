@@ -21,6 +21,7 @@ int main () {
     printf("2 - Registrar \n");
 
     int operacao = 0;
+    int subOperacao = 0;
 
     while (operacao != 1 && operacao != 2){
         scanf("%d", &operacao);
@@ -33,7 +34,6 @@ int main () {
     FILE *bd = fopen("usuarios.txt", "r");
     Grafo *grafo = inicializar(100);
     carregarNaMemoria(bd, grafo);
-    ligarAmizadesPedidos(grafo);
     fclose(bd);
 
     if(operacao == 1){
@@ -53,7 +53,54 @@ int main () {
         registrar(bd, grafo, &usuario);
     }
 
+    int flag_loged = 0;
 
+    while(usuario!=NULL){
+        system("clear");
+        if(!flag_loged) {
+            printf("Olá %s, escolha uma das opções:\n", usuario);
+            flag_loged = 1;
+        } else {
+            printf("Escolha uma das opções:\n");
+        }
+        printf("1 - Listar estudantes\n");
+        printf("2 - Sugerir amizades\n");
+        printf("3 - Checar amizades\n");
+        printf("4 - Solicitações\n");
+        printf("5 - Mostrar meu perfil\n");
+        printf("6 - Logoff\n");
+        printf("7 - Sair\n");
+        scanf("%d", &operacao);
+
+        if(operacao == 1){ //Listar estudantes.
+            system("clear");
+            printar_lista(grafo->all);
+            whaitEnter();
+
+        } else if(operacao == 2){ //Sugerir amizades.
+            system("clear");
+            sugerirAmizades(grafo, find_lista_name(grafo->all, usuario));
+            printf("\nOpções:\n");
+            printf("1 - Adicionar alguem\n");
+            printf("2 - Voltar para o menu\n");
+            scanf("%d", &subOperacao);
+            if(subOperacao == 1){
+                int index;
+                printf("Digite o ID da pessoa que você quer adicionar: ");
+                scanf("%d", &index);
+                enviarSolicitacao(grafo, index, usuario, bd);
+                // printar_lista(grafo->all);
+            }
+        } else if(operacao == 5){ //Mostrar o perfil.
+            system("clear");
+            printVertice(find_lista_name(grafo->all, usuario));
+            whaitEnter();
+
+        } else if(operacao == 7){ //Fechar execução.
+            printf("Tchau %s, até a próxima ;)\n", usuario);
+            return 0;
+        }
+    }
 
     return 0; //Sucesso :)
 }

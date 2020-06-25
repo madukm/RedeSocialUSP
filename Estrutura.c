@@ -208,19 +208,31 @@ void excluir_lista(LISTA* list, int ident){ //Excluir elemento da lista.
 void printar_lista(LISTA* list) { //Imprimir a lista.
     VERTICE* atual = list->inicial; //Inicializando "atual" como o primeiro vértice da lista.
 	while (atual) { //Enquanto existir um atual, isso é, "atual != NULL"
-		printf("usuario: %s\n",atual->usuario);
-		printf("genero: %s\n",atual->genero);
-		printf("filme_predileto: %s\n",atual->filme_predileto);
-		printf("local_predileto: %s\n",atual->local_predileto);
-		printf("hobby: %s\n",atual->hobby);
-		printf("livro: %s\n",atual->livro);
-		printf("esporte: %s\n",atual->esporte);
-		printf("idade: %d\n",atual->idade);
-		printf("id: %d\n",atual->id);
 		printf("--------------------------------------\n");
+		printf("Usuário: %s\n",atual->usuario);
+		printf("Gênero: %s\n",atual->genero);
+		printf("Filme predileto: %s\n",atual->filme_predileto);
+		printf("Local predileto: %s\n",atual->local_predileto);
+		printf("Hobby: %s\n",atual->hobby);
+		printf("Livro: %s\n",atual->livro);
+		printf("Esporte: %s\n",atual->esporte);
+		printf("Idade: %d\n",atual->idade);
+		printf("%s\n",atual->solicitacoes);
+		// printf("id: %d\n",atual->id);
         atual = atual->prox; //Indo para o proximo vértice.
 	}
     printf("\n"); //Quebra de linha.
+}
+
+void printVertice(VERTICE *vertice){ //Printar as informações do vértice.
+    printf("Usuário: %s\n",vertice->usuario);
+    printf("Gênero: %s\n",vertice->genero);
+    printf("Filme predileto: %s\n",vertice->filme_predileto);
+    printf("Local predileto: %s\n",vertice->local_predileto);
+    printf("Hobby: %s\n",vertice->hobby);
+    printf("Livro: %s\n",vertice->livro);
+    printf("Esporte: %s\n",vertice->esporte);
+    printf("Idade: %d\n",vertice->idade);
 }
 
 // void ligar_vertices(Grafo* a, int u, int v){ //Ligar dois vértices.
@@ -360,21 +372,12 @@ void carregarNaMemoria(FILE *file, Grafo* grafo) { //Carregar informações do a
 
         inserir_vertex_lista(grafo->all, criar_vertice(usuario, genero, filme_predileto, local_predileto, 
         hobby, livro, esporte, idade, id, solicitacoes, amizades)); 
-        // for (int i=0;i<getQuntidadePalavras(solicitacoes)-1;i++){
-        //     char *copy = malloc(strlen(solicitacoes) + 1);
-        //     strcpy(copy, solicitacoes);
-        // }
 
-        // for (int i=1;i<=getQuntidadePalavras(amizades)-1;i++){
-        //     char *copy = malloc(strlen(amizades) + 1);
-        //     strcpy(copy, amizades);
-        //     atoi(getPalavra(copy, i+1, i+1));
-        //     find_lista();
-        //     inserir_vertex_lista();
-        // }
         limpar_atributos(usuario, genero, filme_predileto, local_predileto, hobby, livro, 
         esporte, amizades, solicitacoes);
     }
+
+    ligarAmizadesPedidos(grafo);
 
     return;
 }
@@ -458,8 +461,108 @@ void ligarAmizadesPedidos(Grafo *grafo){ //Criar uma aresta entre todas as amiza
             inserir_vertex_lista(grafo->solicitacoes[atual->id], copy_vertice(find_lista(grafo->all, 
             atoi(getPalavra(copy, i+1, i+1)))));
         }
-        
+
 		atual = atual->prox; //Indo para o proximo vértice.
 	}
 
+}
+
+void whaitEnter() { //Standby.
+    printf("\nPressione ENTER para voltar a pagina inicial\n");
+    getchar();
+    getchar();
+}
+
+void sugerirAmizades(Grafo *grafo, VERTICE *vert) { //Checa faz um match com usuários da rede.
+
+    VERTICE* atual = grafo->all->inicial; //Inicializando "atual" como o primeiro vértice da lista.
+	while (atual) { //Enquanto existir um atual, isso é, "atual != NULL"
+        int afinidade = 0;
+
+        if(!strcmp(atual->livro, vert->livro)) afinidade++; 
+        if(!strcmp(atual->filme_predileto, vert->filme_predileto)) afinidade++;
+        if(!strcmp(atual->local_predileto, vert->local_predileto)) afinidade++;
+        if(!strcmp(atual->esporte, vert->esporte)) afinidade++;
+        if(!strcmp(atual->hobby, vert->hobby)) afinidade++;
+
+        afinidade *= 20;
+
+        if(afinidade >= 20){
+            printf("%d - Usuário: %s\tAfinidade: %d%% \n", atual->id, atual->usuario, afinidade);
+        }
+
+        atual = atual->prox; //Indo para o proximo vértice.
+	}
+}
+
+void writeFile(FILE *bd, Grafo *grafo) { //Escrever dados atualizados no arquivo.
+    if(bd != NULL) fclose(bd);
+
+    bd = fopen("usuarios.txt", "r+");
+
+    VERTICE* atual = grafo->all->inicial; //Inicializando "atual" como o primeiro vértice da lista.
+	while (atual) { //Percorrendo cada vértice da lista.
+        fputs("usuario: ", bd);
+        fputs(atual->usuario, bd);
+        fputs("\ngenero: ", bd);
+        fputs(atual->genero, bd);
+        fputs("\nidade: ", bd);
+        char idade[10];
+        int int_idade = atual->idade;
+        sprintf(idade, "%d", int_idade);
+        fputs(idade, bd);
+        fputs("\nfilme_predileto: ", bd);
+        fputs(atual->filme_predileto, bd);
+        fputs("\nlocal_predileto: ", bd);
+        fputs(atual->local_predileto, bd);
+        fputs("\nlivro: ", bd);
+        fputs(atual->livro, bd);
+        fputs("\nhobby: ", bd);
+        fputs(atual->hobby, bd);
+        fputs("\nesporte: ", bd);
+        fputs(atual->esporte, bd);
+        char id[10];
+        int int_id = atual->id;
+        sprintf(id, "%d", int_id);
+        fputs("\nid: ", bd);
+        fputs(id, bd);
+        fputs("\n", bd);
+        fputs(atual->solicitacoes, bd);
+        fputs("\n", bd);
+        fputs(atual->amizades, bd);
+        if(atual->prox != NULL) fputs("\n", bd);
+		atual = atual->prox; //Indo para o proximo vértice.
+	}
+    
+    fclose(bd);
+}
+
+void enviarSolicitacao(Grafo *grafo, int id, char* usuario, FILE *bd) { //Enviar solicitação de amizade para um usuário.
+
+    VERTICE *user = find_lista_name(grafo->all, usuario);
+    VERTICE *atual = grafo->all->inicial; //Inicializando "atual" como o primeiro vértice da lista.
+	while (atual) { //Enquanto existir um atual, isso é, "atual != NULL"
+        if(atual->id == id){
+            if(find_lista_name(grafo->solicitacoes[id], usuario)!=NULL){
+                printf("Você já enviou uma solicitação para essa pessoa.\n");
+                whaitEnter();
+                return;
+            }
+            char id_char[10];
+            sprintf(id_char, " %d", user->id);
+            concatenar(atual->solicitacoes, id_char);
+            inserir_vertex_lista(grafo->solicitacoes[id], user);
+        }
+
+        atual = atual->prox; //Indo para o proximo vértice.
+	}
+
+    writeFile(bd, grafo);
+    printf("Solicitação enviada :)\n");
+    whaitEnter();
+}
+
+void concatenar(char *dest, char *a){ //Concatenar strings.
+    dest = (char *) realloc(dest, sizeof(char) * (strlen(a) + 1));
+    strcat(dest, a);
 }
