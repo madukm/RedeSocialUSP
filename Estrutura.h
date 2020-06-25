@@ -55,6 +55,7 @@ void inserir_lista(LISTA* list, int v); //Inserir elemento na lista.
 void inserir_vertex_lista(LISTA* list, VERTICE *ver); //Inserir elemento na lista.
 void excluir_lista(LISTA* list, int ident); //Excluir elemento da lista.
 void printar_lista(LISTA* list); //Imprimir a lista.
+void printVertice(VERTICE *vertice); //Printar as informações do vértice.
 void limpar_lista(LISTA* list); //Desalocar memória previamente alocada.
 
 Grafo* inicializar (int n); //Inicializa a lista de adjacência.
@@ -70,5 +71,10 @@ char *hobby, char * livro, char *esporte, char *amigos, char *solicitacoes); //L
 void carregarNaMemoria(FILE *file, Grafo* grafo);  //Carregar informações do arquivo na memória.
 void registrar(FILE *bd, Grafo *grafo, char **usuario); //Registar o usuário na rede social.
 void ligarAmizadesPedidos(Grafo *grafo); //Criar uma aresta entre todas as amizades e entre os pedidos.
+void whaitEnter(); //Standby
+void sugerirAmizades(Grafo *grafo, VERTICE *vert); //Checa faz um match com usuários da rede.
+void enviarSolicitacao(Grafo *grafo, int id, char* usuario, FILE *bd); //Enviar solicitação de amizade para um usuário.
+void concatenar(char *dest, char *a); //Concatenar strings.
+void writeFile(FILE *bd, Grafo *grafo); //Escrever dados atualizados no arquivo.
 
 #endif

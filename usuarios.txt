@@ -2,7 +2,7 @@ usuario: beltrano
 genero: masculino
 idade: 19
 filme_predileto: vingadores
-local_predileto: bar do zé
+local_predileto: icmc
 livro: 1984
 hobby: cinema
 esporte: corrida
@@ -20,16 +20,16 @@ esporte: ping pong
 id: 2
 pedidos:
 amizades:
-usuario: bubu
+usuario: bububia
 genero: feminino
 idade: 21
 filme_predileto: prometheus
-local_predileto: praça xv
+local_predileto: icmc
 livro: feliz ano velho
-hobby: leitura
+hobby: programar
 esporte: ping pong
 id: 3
-pedidos:
+pedidos: 4
 amizades:
 usuario: matheushw
 genero: masculino
