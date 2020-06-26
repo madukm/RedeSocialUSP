@@ -11,7 +11,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "Estrutura.h"
+#include "Grafo.h"
+#include "Lista.h"
+#include "utils.h"
 
 int main () {
 
@@ -31,7 +33,7 @@ int main () {
     }
 
     char *usuario;
-    Grafo *grafo = inicializar();
+    Grafo *grafo = inicializar_grafo();
     carregarNaMemoria(grafo);
 
     if(operacao == 1){
@@ -40,7 +42,7 @@ int main () {
             scanf("\n");
 
             usuario = readline(stdin);
-            if(find_lista_name(grafo->all, usuario) != NULL) break;
+            if(find_lista_name(get_all(grafo), usuario) != NULL) break;
 
             printf("Usuário inválido\n");
         } while (1);
@@ -73,12 +75,12 @@ int main () {
 
         if(operacao == 1){ //Listar estudantes.
             system("clear");
-            printar_lista(grafo->all);
+            printar_lista(get_all(grafo));
             whaitEnter();
 
         } else if(operacao == 2){ //Sugerir amizades.
             system("clear");
-            sugerirAmizades(grafo, find_lista_name(grafo->all, usuario));
+            sugerirAmizades(grafo, find_lista_name(get_all(grafo), usuario));
             printf("\nOpções:\n");
             printf("1 - Adicionar alguem\n");
             printf("2 - Voltar para o menu\n");
@@ -92,7 +94,7 @@ int main () {
             }
         } else if(operacao == 4){
             system("clear");
-            VERTICE *user_vertice = find_lista_name(grafo->all, usuario);
+            VERTICE *user_vertice = find_lista_name(get_all(grafo), usuario);
             printSolicitacoes(grafo, user_vertice->id);
             printf("\nOpções:\n");
             printf("1 - Adicionar alguem\n");
@@ -109,13 +111,13 @@ int main () {
             }
         } else if(operacao == 5){ //Mostrar o perfil.
             system("clear");
-            printVertice(find_lista_name(grafo->all, usuario));
+            printVertice(find_lista_name(get_all(grafo), usuario));
             whaitEnter();
 
         } else if(operacao == 7){ //Fechar execução.
             printf("Tchau %s, até a próxima ;)\n", usuario);
             free(usuario);
-            limpar_memoria(grafo);
+            limpar_memoria_grafo(grafo);
             return 0;
         }
     }
