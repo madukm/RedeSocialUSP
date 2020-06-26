@@ -273,12 +273,11 @@ void limpar_lista(LISTA* list){ //Desalocar memória previamente alocada.
         free(atual->esporte);
         free(atual->solicitacoes);
         free(atual->amizades);
+        VERTICE *aux = atual->prox;
         free(atual);
-        atual = atual->prox; //Indo para o próximo elemento.
+        atual = aux; //Indo para o próximo elemento.
 	}
-    atual = NULL; //Segurança.
     free(list); //Livrando memória.
-    list = NULL;
 }
 
 void limpar_memoria(Grafo* a){ //Desalocar memória previamente alocada.
@@ -288,7 +287,6 @@ void limpar_memoria(Grafo* a){ //Desalocar memória previamente alocada.
     }
     limpar_lista(a->all); //Livrando memória da lista principal.
     free(a); //Livrando memória.
-    a = NULL; //Segurança.
 }
 
 char *getPalavra(char *frase, int indexPalavra, int limit) { //Retorna a palvra de número "indexPalavra".
@@ -349,7 +347,7 @@ int getQuntidadePalavras(char* frase){  //Conta quantas palavras existem ao todo
 }
 
 void limpar_atributos(char *usuario, char *genero, char *filme_predileto , char *local_predileto,
-char *hobby, char * livro, char *esporte, char *amigos, char *solicitacoes){ //Limpar memória.
+char *hobby, char * livro, char *esporte, char *amigos, char *solicitacoes, char *char_idade, char *char_id){ //Limpar memória.
     free(usuario);
     free(genero);
     free(filme_predileto);
@@ -359,6 +357,8 @@ char *hobby, char * livro, char *esporte, char *amigos, char *solicitacoes){ //L
     free(esporte);
     free(amigos);
     free(solicitacoes);
+    free(char_idade);
+    free(char_id);
 }
 
 void carregarNaMemoria(Grafo* grafo) { //Carregar informações do arquivo na memória.
@@ -371,7 +371,8 @@ void carregarNaMemoria(Grafo* grafo) { //Carregar informações do arquivo na me
         aux_leitura = readline(file);
         char *genero = getPalavra(aux_leitura, 2, getQuntidadePalavras(aux_leitura));
         aux_leitura = readline(file);
-        int idade = atoi(getPalavra(aux_leitura, 2, getQuntidadePalavras(aux_leitura)));
+        char *char_idade = getPalavra(aux_leitura, 2, getQuntidadePalavras(aux_leitura));
+        int idade = atoi(char_idade);
         aux_leitura = readline(file);
         char *filme_predileto = getPalavra(aux_leitura, 2, getQuntidadePalavras(aux_leitura));
         aux_leitura = readline(file);
@@ -383,7 +384,8 @@ void carregarNaMemoria(Grafo* grafo) { //Carregar informações do arquivo na me
         aux_leitura = readline(file);
         char *esporte = getPalavra(aux_leitura, 2, getQuntidadePalavras(aux_leitura));
         aux_leitura = readline(file);
-        int id = atoi(getPalavra(aux_leitura, 2, getQuntidadePalavras(aux_leitura)));
+        char *char_id = getPalavra(aux_leitura, 2, getQuntidadePalavras(aux_leitura));
+        int id = atoi(char_id);
         char *solicitacoes = readline(file);
         char *amizades = readline(file);
         contador++;
@@ -393,7 +395,7 @@ void carregarNaMemoria(Grafo* grafo) { //Carregar informações do arquivo na me
         hobby, livro, esporte, idade, id, solicitacoes, amizades)); 
 
         limpar_atributos(usuario, genero, filme_predileto, local_predileto, hobby, livro, 
-        esporte, amizades, solicitacoes);
+        esporte, amizades, solicitacoes, char_idade, char_id);
     }
 
     ligarAmizadesPedidos(grafo);
@@ -474,9 +476,13 @@ void ligarAmizadesPedidos(Grafo *grafo){ //Criar uma aresta entre todas as amiza
             char *copy2 = malloc(strlen(atual->amizades) + 1);
             strcpy(copy, atual->amizades);
             strcpy(copy2, atual->amizades);
-            VERTICE *aux = find_lista(grafo->all, atoi(getPalavra(copy, i+1, i+1)));
-            VERTICE *copy_vert = copy_vertice(aux, atoi(getPalavra(copy2, i+2, i+2)));
+            char *vert_id = getPalavra(copy, i+1, i+1);
+            char *vert_afinidade = getPalavra(copy2, i+2, i+2);
+            VERTICE *aux = find_lista(grafo->all, atoi(vert_id));
+            VERTICE *copy_vert = copy_vertice(aux, atoi(vert_afinidade));
             inserir_vertex_lista(grafo->v[atual->id], copy_vert);
+            free(vert_id);
+            free(vert_afinidade);
         }
 
         for (int i=1;i<=getQuntidadePalavras(atual->solicitacoes)-1;i+=2){
@@ -484,9 +490,13 @@ void ligarAmizadesPedidos(Grafo *grafo){ //Criar uma aresta entre todas as amiza
             char *copy2 = malloc(strlen(atual->solicitacoes) + 1);
             strcpy(copy, atual->solicitacoes);
             strcpy(copy2, atual->solicitacoes);
-            VERTICE *aux = find_lista(grafo->all, atoi(getPalavra(copy, i+1, i+1)));
-            VERTICE *copy_vert = copy_vertice(aux, atoi(getPalavra(copy2, i+2, i+2)));
+            char *vert_id = getPalavra(copy, i+1, i+1);
+            char *vert_afinidade = getPalavra(copy2, i+2, i+2);
+            VERTICE *aux = find_lista(grafo->all, atoi(vert_id));
+            VERTICE *copy_vert = copy_vertice(aux, atoi(vert_afinidade));
             inserir_vertex_lista(grafo->solicitacoes[atual->id], copy_vert);
+            free(vert_id);
+            free(vert_afinidade);
         }
 
 		atual = atual->prox; //Indo para o proximo vértice.
@@ -523,7 +533,7 @@ void sugerirAmizades(Grafo *grafo, VERTICE *vert) { //Checa faz um match com usu
 
 void writeFile(Grafo *grafo) { //Escrever dados atualizados no arquivo.
 
-    FILE *bd = fopen("usuarios.txt", "r+");
+    FILE *bd = fopen("usuarios.txt", "w+");
 
     VERTICE* atual = grafo->all->inicial; //Inicializando "atual" como o primeiro vértice da lista.
 	while (atual) { //Percorrendo cada vértice da lista.
@@ -551,10 +561,10 @@ void writeFile(Grafo *grafo) { //Escrever dados atualizados no arquivo.
         sprintf(id, "%d", int_id);
         fputs("\nid: ", bd);
         fputs(id, bd);
-        fputs("\n", bd);
-        fputs(atual->solicitacoes, bd);
-        fputs("\n", bd);
-        fputs(atual->amizades, bd);
+        // fputs("\n", bd);
+        // fputs(atual->solicitacoes, bd);
+        // fputs("\n", bd);
+        // fputs(atual->amizades, bd);
         if(atual->prox != NULL) fputs("\n", bd);
 		atual = atual->prox; //Indo para o proximo vértice.
 	}
@@ -599,7 +609,7 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario) { //Enviar solicita�
 }
 
 void concatenar(char *dest, char *a){ //Concatenar strings.
-    dest = (char *) realloc(dest, sizeof(char) * (strlen(a) + 1));
+    dest = (char *) realloc(dest, sizeof(char) * (strlen(a) + strlen(dest) + 1));
     strcat(dest, a);
 }
 
@@ -641,7 +651,8 @@ void aceitarSolicitacao(int id, int index, Grafo *grafo){ //Aceitar uma solicita
 
     // printf("id: %d | af: %d\n", atual->id, atual->afinidade);
 
-    // apagarPalavra(index, index+1, usuario_ver->solicitacoes);
+    apagarPalavra(index, index+1, usuario_ver->solicitacoes);
+
     concatenar(usuario_ver->amizades, aux_char);
 
     sprintf(aux_char, " %d %d", usuario_ver->id, atual->afinidade);
@@ -651,6 +662,9 @@ void aceitarSolicitacao(int id, int index, Grafo *grafo){ //Aceitar uma solicita
     concatenar(atual->amizades, aux_char);
 
     writeFile(grafo);
+
+    printf("sadasd\n");
+    exit(0);
 
     // inserir_vertex_lista(grafo->v[atual->id], copy_vert);
 
@@ -686,7 +700,6 @@ void apagarPalavra(int indexPalavra, int limit, char *frase) { //Apaga a palavra
                 strcpy(aux_cpy, &frase[i+1]);
                 frase = (char*) realloc(frase, sizeof(char) * (strlen(frase) + strlen(aux_cpy) + 1));
                 strcat(frase, aux_cpy);
-                frase[strlen(frase) + strlen(aux_cpy)] = '\0';
                 free(aux_cpy);
                 break;
             }

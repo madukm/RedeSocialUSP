@@ -68,7 +68,7 @@ void limpar_memoria(Grafo* a); //Desalocar memória previamente alocada.
 char *getPalavra(char *frase, int indexPalavra, int limit);  //Retorna a palvra de número "indexPalavra".
 int getQuntidadePalavras(char* frase);  //Conta quantas palavras existem ao todo na string "frase".
 void limpar_atributos(char *usuario, char *genero, char *filme_predileto , char *local_predileto,
-char *hobby, char * livro, char *esporte, char *amigos, char *solicitacoes); //Limpar memória.
+char *hobby, char * livro, char *esporte, char *amigos, char *solicitacoes, char *char_idade, char *char_id); //Limpar memória.
 void carregarNaMemoria(Grafo* grafo);  //Carregar informações do arquivo na memória.
 void registrar(Grafo *grafo, char **usuario); //Registar o usuário na rede social.
 void ligarAmizadesPedidos(Grafo *grafo); //Criar uma aresta entre todas as amizades e entre os pedidos.

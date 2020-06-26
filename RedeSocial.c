@@ -61,7 +61,7 @@ int main () {
             printf("Escolha uma das opções:\n");
         }
 
-        refreshGrafo(&grafo);
+        // refreshGrafo(&grafo);
         printf("1 - Listar estudantes\n");
         printf("2 - Sugerir amizades\n");
         printf("3 - Checar amizades\n");
@@ -114,6 +114,8 @@ int main () {
 
         } else if(operacao == 7){ //Fechar execução.
             printf("Tchau %s, até a próxima ;)\n", usuario);
+            free(usuario);
+            limpar_memoria(grafo);
             return 0;
         }
     }

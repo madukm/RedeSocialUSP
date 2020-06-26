@@ -8,7 +8,7 @@ hobby: cinema
 esporte: corrida
 id: 1
 pedidos:
-amizades: 4 20
+amizades:
 usuario: ciclano
 genero: feminino
 idade: 21
@@ -30,7 +30,7 @@ hobby: programar
 esporte: ping pong
 id: 3
 pedidos:
-amizades: 4 40
+amizades:
 usuario: matheushw
 genero: masculino
 idade: 19
@@ -41,4 +41,4 @@ hobby: programar
 esporte: handball
 id: 4
 pedidos: 3 40 1 20 2 0
-amizades: 3 40 1 20
+amizades:
