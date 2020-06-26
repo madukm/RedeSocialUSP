@@ -561,10 +561,10 @@ void writeFile(Grafo *grafo) { //Escrever dados atualizados no arquivo.
         sprintf(id, "%d", int_id);
         fputs("\nid: ", bd);
         fputs(id, bd);
-        // fputs("\n", bd);
-        // fputs(atual->solicitacoes, bd);
-        // fputs("\n", bd);
-        // fputs(atual->amizades, bd);
+        fputs("\n", bd);
+        fputs(atual->solicitacoes, bd);
+        fputs("\n", bd);
+        fputs(atual->amizades, bd);
         if(atual->prox != NULL) fputs("\n", bd);
 		atual = atual->prox; //Indo para o proximo vértice.
 	}
@@ -585,7 +585,7 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario) { //Enviar solicita�
             }
             char aux_char[10];
             sprintf(aux_char, " %d", user->id);
-            concatenar(atual->solicitacoes, aux_char);
+            atual->solicitacoes = concatenar(atual->solicitacoes, aux_char);
 
             int afinidade = 0;
             if(!strcmp(atual->livro, user->livro)) afinidade++; 
@@ -596,7 +596,7 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario) { //Enviar solicita�
             afinidade *= 20;
 
             sprintf(aux_char, " %d", afinidade);
-            concatenar(atual->solicitacoes, aux_char);
+            atual->solicitacoes = concatenar(atual->solicitacoes, aux_char);
             inserir_vertex_lista(grafo->solicitacoes[id], copy_vertice(user, afinidade));
         }
 
@@ -608,9 +608,10 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario) { //Enviar solicita�
     whaitEnter();
 }
 
-void concatenar(char *dest, char *a){ //Concatenar strings.
+char *concatenar(char *dest, char *a){ //Concatenar strings.
     dest = (char *) realloc(dest, sizeof(char) * (strlen(a) + strlen(dest) + 1));
     strcat(dest, a);
+    return dest;
 }
 
 void refreshGrafo(Grafo **grafo) { //Atualiza o grafo com as informações do arquivo.
@@ -638,43 +639,24 @@ void aceitarSolicitacao(int id, int index, Grafo *grafo){ //Aceitar uma solicita
         atual = atual->prox; //Indo para o proximo vértice.
 	}
 
-    // char *copy = malloc(strlen(atual->amizades) + 1);
-    // char *copy2 = malloc(strlen(atual->amizades) + 1);
-    // strcpy(copy, atual->amizades);
-    // strcpy(copy2, atual->amizades);
-    // VERTICE *copy_vert = copy_vertice(aux, atoi(getPalavra(copy2, i+2, i+2)));
-
     index *= 2;
 
     char aux_char[20];
     sprintf(aux_char, " %d %d", atual->id, atual->afinidade);
 
-    // printf("id: %d | af: %d\n", atual->id, atual->afinidade);
+    usuario_ver->solicitacoes = apagarPalavra(index, index+1, usuario_ver->solicitacoes);
+    usuario_ver->amizades = concatenar(usuario_ver->amizades, aux_char);
 
-    apagarPalavra(index, index+1, usuario_ver->solicitacoes);
-
-    concatenar(usuario_ver->amizades, aux_char);
 
     sprintf(aux_char, " %d %d", usuario_ver->id, atual->afinidade);
-    // excluir_lista(grafo->solicitacoes[id], atual->id);
 
     atual = find_lista(grafo->all, atual->id);
-    concatenar(atual->amizades, aux_char);
+    atual->amizades = concatenar(atual->amizades, aux_char);
 
     writeFile(grafo);
-
-    printf("sadasd\n");
-    exit(0);
-
-    // inserir_vertex_lista(grafo->v[atual->id], copy_vert);
-
-    // VERTICE *copy_vert = copy_vertice(aux, atoi(getPalavra(copy2, i+2, i+2)));
-    // inserir_vertex_lista(grafo->v[atual->id], copy_vert);
-
-    // excluir_lista(grafo->solicitacoes[id], atual->id);
 }
 
-void apagarPalavra(int indexPalavra, int limit, char *frase) { //Apaga a palavra de uma frase.
+char *apagarPalavra(int indexPalavra, int limit, char *frase) { //Apaga a palavra de uma frase.
     char* palavra; //Guarda a posição da palavra.
     int contadorPalavras = 0; //Indicador no número de palavras.
     int flag = 0; //Indica se começou uma palavra.
@@ -701,7 +683,7 @@ void apagarPalavra(int indexPalavra, int limit, char *frase) { //Apaga a palavra
                 frase = (char*) realloc(frase, sizeof(char) * (strlen(frase) + strlen(aux_cpy) + 1));
                 strcat(frase, aux_cpy);
                 free(aux_cpy);
-                break;
+                return frase;
             }
             flag = 0;
         } 
@@ -710,7 +692,9 @@ void apagarPalavra(int indexPalavra, int limit, char *frase) { //Apaga a palavra
             int tamanho_palavras = strlen(palavra);
             frase = (char*) realloc(frase, sizeof(char) * (tamanho_frase-tamanho_palavras+1));
             frase[tamanho_frase-tamanho_palavras] = '\0';
-            break;
+            return frase;
         }
     }
+
+    return NULL;
 }

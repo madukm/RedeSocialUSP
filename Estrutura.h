@@ -75,11 +75,11 @@ void ligarAmizadesPedidos(Grafo *grafo); //Criar uma aresta entre todas as amiza
 void whaitEnter(); //Standby
 void sugerirAmizades(Grafo *grafo, VERTICE *vert); //Checa faz um match com usuários da rede.
 void enviarSolicitacao(Grafo *grafo, int id, char* usuario); //Enviar solicitação de amizade para um usuário.
-void concatenar(char *dest, char *a); //Concatenar strings.
+char *concatenar(char *dest, char *a); //Concatenar strings.
 void writeFile(Grafo *grafo); //Escrever dados atualizados no arquivo.
 void refreshGrafo(Grafo **grafo);  //Atualiza o grafo com as informações do arquivo.
 void printSolicitacoes(Grafo *grafo, int id); //Printar as solicitações de amizade ao usuário.
 void aceitarSolicitacao(int id, int index, Grafo *grafo); //Aceitar uma solicitação de amizade.
-void apagarPalavra(int indexPalavra, int limit,char *frase); //Apaga a palavra de uma frase.
+char *apagarPalavra(int indexPalavra, int limit,char *frase); //Apaga a palavra de uma frase.
 
 #endif

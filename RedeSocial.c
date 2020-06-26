@@ -61,7 +61,7 @@ int main () {
             printf("Escolha uma das opções:\n");
         }
 
-        // refreshGrafo(&grafo);
+        refreshGrafo(&grafo);
         printf("1 - Listar estudantes\n");
         printf("2 - Sugerir amizades\n");
         printf("3 - Checar amizades\n");
