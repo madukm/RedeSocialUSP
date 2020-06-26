@@ -47,7 +47,7 @@ char *readline(FILE *stream); //Ler e alocar memória de uma linha inputada.
 LISTA* criar_lista(); //Inicializar uma lista.
 VERTICE* criar_vertice(char *usuario, char *genero, char *filme_predileto , char *local_predileto,
 char *hobby, char * livro, char *esporte, int idade, int id, char *solicitacoes, char *amizades); //Inicializa um vértice.
-VERTICE* copy_vertice(VERTICE *vertice); //Copia os dados de um vértice.
+VERTICE* copy_vertice(VERTICE *vertice, int afinidade); //Copia os dados de um vértice.
 VERTICE* find_lista(LISTA* list, int ident); //Procurar elemento na lista.
 VERTICE* find_lista_name(LISTA* list, char* user); //Procurar elemento na lista pelo nome de usuário.
 int lista_size(LISTA* list); //Retorna o tamanho da lista.
@@ -78,5 +78,8 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario); //Enviar solicitaç
 void concatenar(char *dest, char *a); //Concatenar strings.
 void writeFile(Grafo *grafo); //Escrever dados atualizados no arquivo.
 void refreshGrafo(Grafo **grafo);  //Atualiza o grafo com as informações do arquivo.
+void printSolicitacoes(Grafo *grafo, int id); //Printar as solicitações de amizade ao usuário.
+void aceitarSolicitacao(int id, int index, Grafo *grafo); //Aceitar uma solicitação de amizade.
+void apagarPalavra(int indexPalavra, int limit,char *frase); //Apaga a palavra de uma frase.
 
 #endif

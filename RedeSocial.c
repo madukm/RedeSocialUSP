@@ -53,7 +53,7 @@ int main () {
     int flag_loged = 0;
 
     while(usuario!=NULL){
-        system("clear");
+        // system("clear");
         if(!flag_loged) {
             printf("Olá %s, escolha uma das opções:\n", usuario);
             flag_loged = 1;
@@ -88,6 +88,23 @@ int main () {
                 printf("Digite o ID da pessoa que você quer adicionar: ");
                 scanf("%d", &index);
                 enviarSolicitacao(grafo, index, usuario);
+                // printar_lista(grafo->all);
+            }
+        } else if(operacao == 4){
+            system("clear");
+            VERTICE *user_vertice = find_lista_name(grafo->all, usuario);
+            printSolicitacoes(grafo, user_vertice->id);
+            printf("\nOpções:\n");
+            printf("1 - Adicionar alguem\n");
+            printf("2 - Voltar para o menu\n");
+            scanf("%d", &subOperacao);
+            if(subOperacao == 1){
+                int index;
+                printf("Digite o índice correspondente a pessoa que você quer adicionar: ");
+                scanf("%d", &index);
+                aceitarSolicitacao(user_vertice->id, index, grafo);
+                whaitEnter();
+                // enviarSolicitacao(grafo, index, usuario);
                 // printar_lista(grafo->all);
             }
         } else if(operacao == 5){ //Mostrar o perfil.

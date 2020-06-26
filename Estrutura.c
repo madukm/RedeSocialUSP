@@ -73,6 +73,7 @@ char *hobby, char * livro, char *esporte, int idade, int id, char *solicitacoes,
     strcpy(vert->esporte, esporte);
     vert->idade = idade;
     vert->id = id;
+    vert->afinidade = -1;
     vert->solicitacoes = (char*) malloc(sizeof(char) * (strlen(solicitacoes) + 1));
     strcpy(vert->solicitacoes, solicitacoes);
     vert->amizades = (char*) malloc(sizeof(char) * (strlen(amizades) + 1));
@@ -81,7 +82,7 @@ char *hobby, char * livro, char *esporte, int idade, int id, char *solicitacoes,
     return vert; //Retornando um ponteiro para um vértice inicializado.
 }
 
-VERTICE* copy_vertice(VERTICE *vertice){ //Copia os dados de um vértice.
+VERTICE* copy_vertice(VERTICE *vertice, int afinidade){ //Copia os dados de um vértice.
     VERTICE* vert = (VERTICE*)malloc(sizeof(VERTICE));
     vert->usuario = (char*) malloc(sizeof(char) * (strlen(vertice->usuario) + 1));
     strcpy(vert->usuario, vertice->usuario);
@@ -99,6 +100,7 @@ VERTICE* copy_vertice(VERTICE *vertice){ //Copia os dados de um vértice.
     strcpy(vert->esporte, vertice->esporte);
     vert->idade = vertice->idade;
     vert->id = vertice->id;
+    vert->afinidade = afinidade;
     vert->solicitacoes = (char*) malloc(sizeof(char) * (strlen(vertice->solicitacoes) + 1));
     strcpy(vert->solicitacoes, vertice->solicitacoes);
     vert->amizades = (char*) malloc(sizeof(char) * (strlen(vertice->amizades) + 1));
@@ -151,7 +153,7 @@ void inserir_lista(LISTA* list, int ident){ //Inserir elemento na lista.
     VERTICE *aux_ver = find_lista(list, ident);
     if (aux_ver != NULL) return; //Caso o vértice já exista, não precisamos o adicionar.
 
-    VERTICE* ver = copy_vertice(aux_ver); //Inicializando um vértice.
+    VERTICE* ver = copy_vertice(aux_ver, -1); //Inicializando um vértice.
 
     if (list->inicial==NULL){ //Caso não exista elementos na lista.
         list->inicial = ver;
@@ -217,7 +219,9 @@ void printar_lista(LISTA* list) { //Imprimir a lista.
 		printf("Livro: %s\n",atual->livro);
 		printf("Esporte: %s\n",atual->esporte);
 		printf("Idade: %d\n",atual->idade);
+		printf("Afinidade: %d\n",atual->afinidade);
 		printf("%s\n",atual->solicitacoes);
+		printf("%s\n",atual->amizades);
 		// printf("id: %d\n",atual->id);
         atual = atual->prox; //Indo para o proximo vértice.
 	}
@@ -465,23 +469,28 @@ void ligarAmizadesPedidos(Grafo *grafo){ //Criar uma aresta entre todas as amiza
 
     VERTICE* atual = grafo->all->inicial; //Inicializando "atual" como o primeiro vértice da lista.
 	while (atual) { //Percorrendo cada vértice da lista.
-        for (int i=1;i<=getQuntidadePalavras(atual->amizades)-1;i++){
+        for (int i=1;i<=getQuntidadePalavras(atual->amizades)-1;i+=2){
             char *copy = malloc(strlen(atual->amizades) + 1);
+            char *copy2 = malloc(strlen(atual->amizades) + 1);
             strcpy(copy, atual->amizades);
-            inserir_vertex_lista(grafo->v[atual->id], copy_vertice(find_lista(grafo->all, 
-            atoi(getPalavra(copy, i+1, i+1)))));
+            strcpy(copy2, atual->amizades);
+            VERTICE *aux = find_lista(grafo->all, atoi(getPalavra(copy, i+1, i+1)));
+            VERTICE *copy_vert = copy_vertice(aux, atoi(getPalavra(copy2, i+2, i+2)));
+            inserir_vertex_lista(grafo->v[atual->id], copy_vert);
         }
 
-        for (int i=1;i<=getQuntidadePalavras(atual->solicitacoes)-1;i++){
+        for (int i=1;i<=getQuntidadePalavras(atual->solicitacoes)-1;i+=2){
             char *copy = malloc(strlen(atual->solicitacoes) + 1);
+            char *copy2 = malloc(strlen(atual->solicitacoes) + 1);
             strcpy(copy, atual->solicitacoes);
-            inserir_vertex_lista(grafo->solicitacoes[atual->id], copy_vertice(find_lista(grafo->all, 
-            atoi(getPalavra(copy, i+1, i+1)))));
+            strcpy(copy2, atual->solicitacoes);
+            VERTICE *aux = find_lista(grafo->all, atoi(getPalavra(copy, i+1, i+1)));
+            VERTICE *copy_vert = copy_vertice(aux, atoi(getPalavra(copy2, i+2, i+2)));
+            inserir_vertex_lista(grafo->solicitacoes[atual->id], copy_vert);
         }
 
 		atual = atual->prox; //Indo para o proximo vértice.
 	}
-
 }
 
 void whaitEnter() { //Standby.
@@ -564,10 +573,21 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario) { //Enviar solicita�
                 whaitEnter();
                 return;
             }
-            char id_char[10];
-            sprintf(id_char, " %d", user->id);
-            concatenar(atual->solicitacoes, id_char);
-            inserir_vertex_lista(grafo->solicitacoes[id], copy_vertice(user));
+            char aux_char[10];
+            sprintf(aux_char, " %d", user->id);
+            concatenar(atual->solicitacoes, aux_char);
+
+            int afinidade = 0;
+            if(!strcmp(atual->livro, user->livro)) afinidade++; 
+            if(!strcmp(atual->filme_predileto, user->filme_predileto)) afinidade++;
+            if(!strcmp(atual->local_predileto, user->local_predileto)) afinidade++;
+            if(!strcmp(atual->esporte, user->esporte)) afinidade++;
+            if(!strcmp(atual->hobby, user->hobby)) afinidade++;
+            afinidade *= 20;
+
+            sprintf(aux_char, " %d", afinidade);
+            concatenar(atual->solicitacoes, aux_char);
+            inserir_vertex_lista(grafo->solicitacoes[id], copy_vertice(user, afinidade));
         }
 
         atual = atual->prox; //Indo para o proximo vértice.
@@ -587,4 +607,97 @@ void refreshGrafo(Grafo **grafo) { //Atualiza o grafo com as informações do ar
     limpar_memoria(*grafo);
     *grafo = inicializar();
     carregarNaMemoria(*grafo);
+}
+
+void printSolicitacoes(Grafo *grafo, int id){ //Printar as solicitações de amizade ao usuário.
+    int contador = 0;
+    VERTICE* atual = grafo->solicitacoes[id]->inicial; //Inicializando "atual" como o primeiro vértice da lista.
+	while (atual) { //Enquanto existir um atual, isso é, "atual != NULL"
+        contador++;
+		printf("%d - Usuário: %s\tAfinidade: %d%%\n",contador, atual->usuario, atual->afinidade);
+        atual = atual->prox; //Indo para o proximo vértice.
+	}
+}
+
+void aceitarSolicitacao(int id, int index, Grafo *grafo){ //Aceitar uma solicitação de amizade.
+    int contador = 0;
+    VERTICE *usuario_ver = find_lista(grafo->all, id);
+    VERTICE *atual = grafo->solicitacoes[id]->inicial; //Inicializando "atual" como o primeiro vértice da lista.
+	while (contador != index-1) { //Enquanto existir um atual, isso é, "atual != NULL"
+        contador++;
+        atual = atual->prox; //Indo para o proximo vértice.
+	}
+
+    // char *copy = malloc(strlen(atual->amizades) + 1);
+    // char *copy2 = malloc(strlen(atual->amizades) + 1);
+    // strcpy(copy, atual->amizades);
+    // strcpy(copy2, atual->amizades);
+    // VERTICE *copy_vert = copy_vertice(aux, atoi(getPalavra(copy2, i+2, i+2)));
+
+    index *= 2;
+
+    char aux_char[20];
+    sprintf(aux_char, " %d %d", atual->id, atual->afinidade);
+
+    // printf("id: %d | af: %d\n", atual->id, atual->afinidade);
+
+    // apagarPalavra(index, index+1, usuario_ver->solicitacoes);
+    concatenar(usuario_ver->amizades, aux_char);
+
+    sprintf(aux_char, " %d %d", usuario_ver->id, atual->afinidade);
+    // excluir_lista(grafo->solicitacoes[id], atual->id);
+
+    atual = find_lista(grafo->all, atual->id);
+    concatenar(atual->amizades, aux_char);
+
+    writeFile(grafo);
+
+    // inserir_vertex_lista(grafo->v[atual->id], copy_vert);
+
+    // VERTICE *copy_vert = copy_vertice(aux, atoi(getPalavra(copy2, i+2, i+2)));
+    // inserir_vertex_lista(grafo->v[atual->id], copy_vert);
+
+    // excluir_lista(grafo->solicitacoes[id], atual->id);
+}
+
+void apagarPalavra(int indexPalavra, int limit, char *frase) { //Apaga a palavra de uma frase.
+    char* palavra; //Guarda a posição da palavra.
+    int contadorPalavras = 0; //Indicador no número de palavras.
+    int flag = 0; //Indica se começou uma palavra.
+    int tamanho_frase = strlen(frase);
+    for(int i=0;i<strlen(frase);i++){
+        if(frase[i] != ' ' && flag==0){ //Caso seja um caractero válido, e ainda não tenha contabilizado a palavra
+        //em questão.
+            contadorPalavras++; //Soma-se a quantidade de palavras da frase.
+            flag = 1; //Indica que a palavra em questão ja foi contabilizada.
+            if(contadorPalavras==indexPalavra){
+                flag = 2;
+                palavra = &frase[i]; //Guardando a posição da palavra.
+            } else if(contadorPalavras > indexPalavra){
+                flag = 2;
+            }
+        } else if (frase[i] == ' ' && flag==1) { //Caso saia de uma palavra.
+            flag = 0; //Indica que não está percorrendo uma palavra.
+        } else if(frase[i] == ' ' && flag==2){ //Quando achar o final da palavra.
+            if(contadorPalavras == limit){
+                frase[i]='\0'; //Mudando o fim da palavra.
+                palavra[0]='\0';
+                char *aux_cpy = (char*) malloc(sizeof(char) * (strlen(&frase[i+1]) + 1));
+                strcpy(aux_cpy, &frase[i+1]);
+                frase = (char*) realloc(frase, sizeof(char) * (strlen(frase) + strlen(aux_cpy) + 1));
+                strcat(frase, aux_cpy);
+                frase[strlen(frase) + strlen(aux_cpy)] = '\0';
+                free(aux_cpy);
+                break;
+            }
+            flag = 0;
+        } 
+        
+        if(i+1 == strlen(frase) && flag == 2){ //Caso seja a ultima palavra da frase.
+            int tamanho_palavras = strlen(palavra);
+            frase = (char*) realloc(frase, sizeof(char) * (tamanho_frase-tamanho_palavras+1));
+            frase[tamanho_frase-tamanho_palavras] = '\0';
+            break;
+        }
+    }
 }

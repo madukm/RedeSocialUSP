@@ -7,8 +7,8 @@ livro: 1984
 hobby: cinema
 esporte: corrida
 id: 1
-pedidos: 2 4
-amizades:
+pedidos:
+amizades: 4 20
 usuario: ciclano
 genero: feminino
 idade: 21
@@ -19,7 +19,7 @@ hobby: leitura
 esporte: ping pong
 id: 2
 pedidos:
-amizades: 4
+amizades:
 usuario: bububia
 genero: feminino
 idade: 21
@@ -29,8 +29,8 @@ livro: feliz ano velho
 hobby: programar
 esporte: ping pong
 id: 3
-pedidos: 4
-amizades:
+pedidos:
+amizades: 4 40
 usuario: matheushw
 genero: masculino
 idade: 19
@@ -40,5 +40,5 @@ livro: nenhum
 hobby: programar
 esporte: handball
 id: 4
-pedidos:
-amizades: 2 1
+pedidos: 3 40 1 20 2 0
+amizades: 3 40 1 20
