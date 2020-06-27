@@ -1,0 +1,58 @@
+/*
+*   Modelagem Computacional em Grafos
+*
+*   Aluno: Matheus Barcellos de Castro Cunha
+*   NUSP: 11208238
+*
+*	Aluna: Maria Eduarda Kawakami Moreira
+*	NUSP: 11218751
+*
+*/
+
+#ifndef _H_LISTA
+#define _H_LISTA
+
+#define MAXN 110
+#define READLINE_BUFFER 4096
+
+typedef struct Vertice{
+    char *usuario;
+    char *genero;
+    char *filme_predileto;
+    char *local_predileto;
+    char *hobby;
+    char *livro;
+    char *esporte;
+    int idade;
+    int id;
+    int afinidade;
+    char *solicitacoes;
+    char *amizades;
+    struct Vertice *prox;
+} VERTICE;
+
+typedef struct Lista{
+    VERTICE *inicial;
+    VERTICE *final;
+} LISTA;
+
+//Lista
+LISTA* criar_lista(); //Inicializar uma lista.
+void limpar_lista(LISTA* list); //Desalocar memória previamente alocada.
+void excluir_lista(LISTA* list, int ident); //Excluir elemento da lista.
+void printar_lista(LISTA* list); //Imprimir a lista.
+int lista_size(LISTA* list); //Retorna o tamanho da lista.
+
+//Vertice
+VERTICE* criar_vertice(char *usuario, char *genero, char *filme_predileto , char *local_predileto, char *hobby, char * livro, char *esporte, int idade, int id, char *solicitacoes, char *amizades); //Inicializa um vértice.
+VERTICE* copy_vertice(VERTICE *vertice, int afinidade); //Copia os dados de um vértice.
+VERTICE* find_lista(LISTA* list, int ident); //Procurar elemento na lista.
+VERTICE* find_lista_name(LISTA* list, char* user); //Procurar elemento na lista pelo nome de usuário.
+VERTICE* find_anterior_lista(LISTA* list, int ident); //Procurar elemento anterior ao desejado, na lista.
+void inserir_lista(LISTA* list, int v); //Inserir elemento na lista pelo id.
+void inserir_vertex_lista(LISTA* list, VERTICE *ver); //Inserir elemento na lista pelo vertice.
+void printVertice(VERTICE *vertice); //Printar as informações do vértice.
+
+//Getters e Setters
+VERTICE *get_inicial(LISTA *list);
+#endif

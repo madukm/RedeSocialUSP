@@ -40,5 +40,27 @@ livro: nenhum
 hobby: programar
 esporte: handball
 id: 4
-pedidos: 3 40 1 20 2 0
-amizades:
+pedidos: 1 20 3 40
+amizades: 6 20
+usuario: notolia
+genero: feminino
+idade: 19
+filme_predileto: je ne sais pas
+local_predileto: Lisbosta
+livro: je ne sais pas encore
+hobby: vegana
+esporte: handball
+id: 5
+pedidos: 
+amizades: 
+usuario: gildaoHB20
+genero: feminino
+idade: 19
+filme_predileto: interestelar
+local_predileto: iguatu
+livro: diario de um banana
+hobby: peidar
+esporte: cagar
+id: 6
+pedidos: 
+amizades: 4 20
