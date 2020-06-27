@@ -26,6 +26,8 @@ void sugerirAmizades(Grafo *grafo, VERTICE *vert); //Checa faz um match com usu�
 void enviarSolicitacao(Grafo *grafo, int id, char* usuario); //Enviar solicitação de amizade para um usuário.
 void printSolicitacoes(Grafo *grafo, int id); //Printar as solicitações de amizade ao usuário.
 void aceitarSolicitacao(int id, int index, Grafo *grafo); //Aceitar uma solicitação de amizade.
+void rejeitarSolicitacao(int id, int index, Grafo *grafo); //Rejeitar uma solicitação de amizade.
+int enviarSolicitacaoNome(char *user,char *target, Grafo *grafo); //Enviar solicitação pelo nome do usuário.
 
 LISTA *get_all(Grafo *g);
 LISTA *get_amizades(Grafo *g, int i);

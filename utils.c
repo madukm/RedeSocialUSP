@@ -95,6 +95,14 @@ void whaitEnter() {
 
 }
 
+//Standby
+void whaitEnter2() {
+
+    printf("\nPressione ENTER para voltar a pagina inicial\n");
+    getchar();
+
+}
+
 // Concatenar strings
 char *concatenar(char *dest, char *a) {
  

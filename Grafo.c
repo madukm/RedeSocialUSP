@@ -106,7 +106,7 @@ void carregarNaMemoria(Grafo* grafo) {
 //Escrever dados atualizados no arquivo.
 void writeFile(Grafo *grafo) {
 
-    FILE *bd = fopen("usuarios.txt", "r+");
+    FILE *bd = fopen("usuarios.txt", "w");
 
     VERTICE* atual = grafo->all->inicial; //Inicializando "atual" como o primeiro vértice da lista.
 	while (atual) { //Percorrendo cada vértice da lista.
@@ -237,9 +237,17 @@ void registrar(Grafo *grafo, char **usuario){
     sprintf(id, "%d", int_id);
     fputs("\nid: ", bd);
     fputs(id, bd);
-    fputs("\npedidos: ", bd);
-    fputs("\namizades: ", bd);
+    fputs("\npedidos:", bd);
+    fputs("\namizades:", bd);
     
+    free(genero);
+    free(idade);
+    free(filme_predileto);
+    free(local_predileto);
+    free(livro);
+    free(hobby);
+    free(esporte);
+
     printf("Registrado com sucesso!\n");
     fclose(bd);
 }
@@ -313,7 +321,19 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario) {
         if(atual->id == id){
             if(find_lista_name(grafo->solicitacoes[id], usuario)!=NULL){
                 printf("Você já enviou uma solicitação para essa pessoa.\n");
-                whaitEnter();
+                whaitEnter2();
+                return;
+            } else if(find_lista_name(grafo->amizades[id], usuario)!=NULL){
+                printf("Você já é amigo dessa pessoa :P\n");
+                whaitEnter2();
+                return;
+            } else if(find_lista(grafo->solicitacoes[user->id], id)!=NULL){
+                printf("Essa pessoa já lhe enviou uma solicitação :0\n");
+                whaitEnter2();
+                return;
+            } else if(id == user->id){
+                printf("Você não pode adicionar você mesmo >:C\n");
+                whaitEnter2();
                 return;
             }
             char aux_char[10];
@@ -338,8 +358,7 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario) {
 
     writeFile(grafo);
     printf("Solicitação enviada :)\n");
-    whaitEnter();
-
+    whaitEnter2();
 }
 
 void printSolicitacoes(Grafo *grafo, int id){ //Printar as solicitações de amizade ao usuário.
@@ -376,6 +395,31 @@ void aceitarSolicitacao(int id, int index, Grafo *grafo){ //Aceitar uma solicita
     atual->amizades = concatenar(atual->amizades, aux_char);
 
     writeFile(grafo);
+}
+
+void rejeitarSolicitacao(int id, int index, Grafo *grafo){ //Rejeitar uma solicitação de amizade.
+    int contador = 0;
+    VERTICE *usuario_ver = find_lista(grafo->all, id);
+    VERTICE *atual = grafo->solicitacoes[id]->inicial; //Inicializando "atual" como o primeiro vértice da lista.
+    while (contador != index-1) { //Enquanto existir um atual, isso é, "atual != NULL"
+        contador++;
+        atual = atual->prox; //Indo para o proximo vértice.
+    }
+
+    index *= 2;
+
+    usuario_ver->solicitacoes = apagarPalavra(index, index+1, usuario_ver->solicitacoes);
+
+    writeFile(grafo);
+}
+
+int enviarSolicitacaoNome(char *user,char *target, Grafo *grafo){ //Enviar solicitação pelo nome do usuário.
+    VERTICE *aux;
+    if((aux = find_lista_name(grafo->all, target)) == NULL) return 1;
+
+    enviarSolicitacao(grafo, aux->id, user);
+
+    return 0;
 }
 
 //GETTERS

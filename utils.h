@@ -10,7 +10,8 @@ char *readline(FILE *stream); //Ler e alocar memória de uma linha inputada.
 char *getPalavra(char *frase, int indexPalavra, int limit);  //Retorna a palavra de número "indexPalavra".
 char *apagarPalavra(int indexPalavra, int limit, char *frase); //Apaga a palavra de uma frase. 
 int getQuntidadePalavras(char* frase);  //Conta quantas palavras existem ao todo na string "frase".
-void whaitEnter(); //Standby
+void whaitEnter(); //Standby.
+void whaitEnter2(); //Standby.
 char *concatenar(char *dest, char *a); //Concatenar strings.
 
 #endif
