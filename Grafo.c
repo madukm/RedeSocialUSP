@@ -321,19 +321,19 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario) {
         if(atual->id == id){
             if(find_lista_name(grafo->solicitacoes[id], usuario)!=NULL){
                 printf("Você já enviou uma solicitação para essa pessoa.\n");
-                whaitEnter2();
+                whaitEnter();
                 return;
             } else if(find_lista_name(grafo->amizades[id], usuario)!=NULL){
                 printf("Você já é amigo dessa pessoa :P\n");
-                whaitEnter2();
+                whaitEnter();
                 return;
             } else if(find_lista(grafo->solicitacoes[user->id], id)!=NULL){
                 printf("Essa pessoa já lhe enviou uma solicitação :0\n");
-                whaitEnter2();
+                whaitEnter();
                 return;
             } else if(id == user->id){
                 printf("Você não pode adicionar você mesmo >:C\n");
-                whaitEnter2();
+                whaitEnter();
                 return;
             }
             char aux_char[10];
@@ -358,7 +358,7 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario) {
 
     writeFile(grafo);
     printf("Solicitação enviada :)\n");
-    whaitEnter2();
+    whaitEnter();
 }
 
 void printSolicitacoes(Grafo *grafo, int id){ //Printar as solicitações de amizade ao usuário.
