@@ -69,57 +69,66 @@ int main () {
         printf("3 - Checar amizades\n");
         printf("4 - Solicitações\n");
         printf("5 - Mostrar meu perfil\n");
-        printf("6 - Logoff\n");
-        printf("7 - Sair\n");
-        scanf("%d", &operacao);
-
-        if(operacao == 1){ //Listar estudantes.
-            system("clear");
-            printar_lista(get_all(grafo));
-            whaitEnter();
-
-        } else if(operacao == 2){ //Sugerir amizades.
-            system("clear");
-            sugerirAmizades(grafo, find_lista_name(get_all(grafo), usuario));
-            printf("\nOpções:\n");
-            printf("1 - Adicionar alguem\n");
-            printf("2 - Voltar para o menu\n");
-            scanf("%d", &subOperacao);
-            if(subOperacao == 1){
-                int index;
-                printf("Digite o ID da pessoa que você quer adicionar: ");
-                scanf("%d", &index);
-                enviarSolicitacao(grafo, index, usuario);
-                // printar_lista(grafo->all);
-            }
-        } else if(operacao == 4){
-            system("clear");
-            VERTICE *user_vertice = find_lista_name(get_all(grafo), usuario);
-            printSolicitacoes(grafo, user_vertice->id);
-            printf("\nOpções:\n");
-            printf("1 - Adicionar alguem\n");
-            printf("2 - Voltar para o menu\n");
-            scanf("%d", &subOperacao);
-            if(subOperacao == 1){
-                int index;
-                printf("Digite o índice correspondente a pessoa que você quer adicionar: ");
-                scanf("%d", &index);
-                aceitarSolicitacao(user_vertice->id, index, grafo);
-                whaitEnter();
-                // enviarSolicitacao(grafo, index, usuario);
-                // printar_lista(grafo->all);
-            }
-        } else if(operacao == 5){ //Mostrar o perfil.
-            system("clear");
-            printVertice(find_lista_name(get_all(grafo), usuario));
-            whaitEnter();
-
-        } else if(operacao == 7){ //Fechar execução.
-            printf("Tchau %s, até a próxima ;)\n", usuario);
-            free(usuario);
-            limpar_memoria_grafo(grafo);
-            return 0;
-        }
+		printf("6 - Listar extrovertidos e introvertidos\n");
+		printf("7 - Logoff\n");
+        printf("8 - Sair\n");
+		scanf("%d", &operacao);
+		switch(operacao){
+			case 1:
+				system("clear");
+            	printar_lista(get_all(grafo));
+            	whaitEnter();
+				break;
+			case 2:
+				system("clear");
+            	sugerirAmizades(grafo, find_lista_name(get_all(grafo), usuario));
+            	printf("\nOpções:\n");
+            	printf("1 - Adicionar alguem\n");
+            	printf("2 - Voltar para o menu\n");
+            	scanf("%d", &subOperacao);
+            	if(subOperacao == 1){
+                	int index;
+                	printf("Digite o ID da pessoa que você quer adicionar: ");
+                	scanf("%d", &index);
+                	enviarSolicitacao(grafo, index, usuario);
+                	// printar_lista(grafo->all);
+            	}
+				break;
+			case 4:
+				system("clear");
+            	VERTICE *user_vertice = find_lista_name(get_all(grafo), usuario);
+            	printSolicitacoes(grafo, user_vertice->id);
+            	printf("\nOpções:\n");
+            	printf("1 - Adicionar alguem\n");
+            	printf("2 - Voltar para o menu\n");
+            	scanf("%d", &subOperacao);
+            	if(subOperacao == 1){
+               		int index;
+               		printf("Digite o índice correspondente a pessoa que você quer adicionar: ");
+               		scanf("%d", &index);
+               		aceitarSolicitacao(user_vertice->id, index, grafo);
+               		whaitEnter();
+               		// enviarSolicitacao(grafo, index, usuario);
+               		// printar_lista(grafo->all);
+            	}
+				break;
+			case 5:
+				system("clear");
+            	printVertice(find_lista_name(get_all(grafo), usuario));
+            	whaitEnter();
+				break;
+			case 6:
+				system("clear");
+				extroIntro(grafo);
+				break;
+			case 8:
+				printf("Tchau %s, até a próxima ;)\n", usuario);
+            	free(usuario);
+            	limpar_memoria_grafo(grafo);
+            	return 0;
+			default:
+				break;
+		}		
     }
 
     return 0; //Sucesso :)
