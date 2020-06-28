@@ -181,6 +181,22 @@ char *hobby, char * livro, char *esporte, char *amigos, char *solicitacoes, char
     free(char_id);
 }
 
+/**
+ * ALGORITMOS 
+ */
+void dfs(Grafo *g){
+
+}
+
+void visita_dfs(Grafo *g){
+
+}
+
+
+/**
+ * Funções em relação direta com a Rede Socia (FEATURES)
+ */
+
 //Registra o usuário na rede social.
 void registrar(Grafo *grafo, char **usuario){
     printf("Escolha um nome de usuário: ");
@@ -362,7 +378,8 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario) {
     whaitEnter();
 }
 
-void printSolicitacoes(Grafo *grafo, int id){ //Printar as solicitações de amizade ao usuário.
+//Printar as solicitacoes de amizade ao usuário.
+void printSolicitacoes(Grafo *grafo, int id){
     int contador = 0;
     VERTICE* atual = get_inicial(grafo->solicitacoes[id]); //Inicializando "atual" como o primeiro vértice da lista.
 	while (atual) { //Enquanto existir um atual, isso é, "atual != NULL"
@@ -372,7 +389,8 @@ void printSolicitacoes(Grafo *grafo, int id){ //Printar as solicitações de ami
 	}
 }
 
-void aceitarSolicitacao(int id, int index, Grafo *grafo){ //Aceitar uma solicitação de amizade.
+//Aceitar uma solicitação de amizade.
+void aceitarSolicitacao(int id, int index, Grafo *grafo){
     int contador = 0;
     VERTICE *usuario_ver = find_lista(grafo->all, id);
     VERTICE *atual = get_inicial(grafo->solicitacoes[id]); //Inicializando "atual" como o primeiro vértice da lista.
@@ -398,7 +416,8 @@ void aceitarSolicitacao(int id, int index, Grafo *grafo){ //Aceitar uma solicita
     writeFile(grafo);
 }
 
-void rejeitarSolicitacao(int id, int index, Grafo *grafo){ //Rejeitar uma solicitação de amizade.
+//Rejeitar uma solicitação de amizade.
+void rejeitarSolicitacao(int id, int index, Grafo *grafo){
     int contador = 0;
     VERTICE *usuario_ver = find_lista(grafo->all, id);
     VERTICE *atual = get_inicial(grafo->solicitacoes[id]); //Inicializando "atual" como o primeiro vértice da lista.
@@ -414,7 +433,8 @@ void rejeitarSolicitacao(int id, int index, Grafo *grafo){ //Rejeitar uma solici
     writeFile(grafo);
 }
 
-int enviarSolicitacaoNome(char *user,char *target, Grafo *grafo){ //Enviar solicitação pelo nome do usuário.
+//Enviar solicitação pelo nome do usuário.
+int enviarSolicitacaoNome(char *user,char *target, Grafo *grafo){
     VERTICE *aux;
     if((aux = find_lista_name(grafo->all, target)) == NULL) return 1;
 
@@ -448,6 +468,8 @@ void extroIntro(Grafo *grafo){
 	printf("\n");
 }
 
+
+
 //GETTERS
 LISTA *get_all(Grafo *g){
 	return g->all;
@@ -464,3 +486,4 @@ LISTA *get_lista_solicitacoes(Grafo *g, int i){
 int get_n_elementos(Grafo *g){
 	return g->n_elementos;
 }
+

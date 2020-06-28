@@ -21,6 +21,10 @@ void desligar_vertices(Grafo* a, int u, int v); //Retira ligação entre dois v�
 void limpar_atributos(char *usuario, char *genero, char *filme_predileto , char *local_predileto,
 char *hobby, char * livro, char *esporte, char *amigos, char *solicitacoes, char *char_idade, char *char_id); //Limpar memória.
 
+//Algoritmos
+void dfs(Grafo *g);
+void visita_dfs(Grafo *g);
+
 //Features rede social
 void registrar(Grafo *grafo, char **usuario); //Registar o usuário na rede social.
 void ligarAmizadesPedidos(Grafo *grafo); //Criar uma aresta entre todas as amizades e entre os pedidos.
