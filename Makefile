@@ -2,7 +2,7 @@
 # Maria Eduarda Kawakami Moreira   			NUSP: 11218751
 
 FLAGS = -pthread -Wall -pedantic -g -std=c99 -D _POSIX_C_SOURCE=199309L
-OBJS = Grafo.o Lista.o utils.o RedeSocial.o
+OBJS = Grafo.o Lista.o utils.o Fila.o RedeSocial.o
 EXEC = RedeSocial
 
 .PHONY: clean

@@ -12,6 +12,7 @@
 #include "Lista.h"
 #include "Grafo.h"
 #include "utils.h"
+#include "Fila.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -49,7 +50,6 @@ void limpar_memoria_grafo(Grafo* a){
     limpar_lista(a->all); //Livrando memória da lista principal.
     free(a); //Livrando memória.
 }
-
 
 //Atualiza o grafo com as informações do arquivo.
 void refreshGrafo(Grafo **grafo) {
@@ -423,7 +423,6 @@ int enviarSolicitacaoNome(char *user,char *target, Grafo *grafo){ //Enviar solic
     return 0;
 }
 
-
 //Printa os usuários considerados extrovertidos e introvertidos da sua lista de amigos e de amigos de amigos..
 void extroIntro(Grafo *grafo){
 	VERTICE *curr = get_inicial(grafo->all);
@@ -446,6 +445,24 @@ void extroIntro(Grafo *grafo){
 		curr = get_prox(curr);
 	}
 	printf("\n");
+}
+
+
+void bfsSugetao(Grafo *grafo, QUEUE *q) {
+
+    VERTICE *atual = grafo->amizades[getFirstID(q)]->inicial;
+    while(atual){
+        insert(q, get_id(atual), getFirstLayer(q));
+        atual = atual->prox;
+    }
+
+    pop_first(q); //Excluindo o primeiro elemento da fila para poder percorrer os outros.
+
+    if(q->size == 0) return; //Condição de parada.
+
+    wavefront(mat, q->inicial->x, q->inicial->y, q); //Recursão.
+
+    return;
 }
 
 //GETTERS
