@@ -18,7 +18,7 @@
 #include "utils.h"
 
 int main () {
-
+	system("clear");
     printf("Bem vindx ao FacebUSP\n");
     printf("Escolha uma opção: \n");
     printf("1 - Login \n");
