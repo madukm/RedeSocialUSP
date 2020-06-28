@@ -108,38 +108,38 @@ void writeFile(Grafo *grafo) {
 
     FILE *bd = fopen("usuarios.txt", "w");
 
-    VERTICE* atual = grafo->all->inicial; //Inicializando "atual" como o primeiro vértice da lista.
+    VERTICE* atual = get_inicial(grafo->all); //Inicializando "atual" como o primeiro vértice da lista.
 	while (atual) { //Percorrendo cada vértice da lista.
         fputs("usuario: ", bd);
-        fputs(atual->usuario, bd);
+        fputs(get_usuario(atual), bd);
         fputs("\ngenero: ", bd);
-        fputs(atual->genero, bd);
+        fputs(get_genero(atual), bd);
         fputs("\nidade: ", bd);
         char idade[10];
-        int int_idade = atual->idade;
+        int int_idade = get_idade(atual);
         sprintf(idade, "%d", int_idade);
         fputs(idade, bd);
         fputs("\nfilme_predileto: ", bd);
-        fputs(atual->filme_predileto, bd);
+        fputs(get_filme_predileto(atual), bd);
         fputs("\nlocal_predileto: ", bd);
-        fputs(atual->local_predileto, bd);
+        fputs(get_local_predileto(atual), bd);
         fputs("\nlivro: ", bd);
-        fputs(atual->livro, bd);
+        fputs(get_livro(atual), bd);
         fputs("\nhobby: ", bd);
-        fputs(atual->hobby, bd);
+        fputs(get_hobby(atual), bd);
         fputs("\nesporte: ", bd);
-        fputs(atual->esporte, bd);
+        fputs(get_esporte(atual), bd);
         char id[10];
-        int int_id = atual->id;
+        int int_id = get_id(atual);
         sprintf(id, "%d", int_id);
         fputs("\nid: ", bd);
         fputs(id, bd);
         fputs("\n", bd);
-        fputs(atual->solicitacoes, bd);
+        fputs(get_solicitacoes(atual), bd);
         fputs("\n", bd);
-        fputs(atual->amizades, bd);
-        if(atual->prox != NULL) fputs("\n", bd);
-		atual = atual->prox; //Indo para o proximo vértice.
+        fputs(get_amizades(atual), bd);
+        if(get_prox(atual) != NULL) fputs("\n", bd);
+		atual = get_prox(atual); //Indo para o proximo vértice.
 	}
     
     fclose(bd);
@@ -255,60 +255,60 @@ void registrar(Grafo *grafo, char **usuario){
 // Criar uma aresta entre todas as amizades e entre os pedidos.
 void ligarAmizadesPedidos(Grafo *grafo) {
 	
-	VERTICE* atual = grafo->all->inicial; //Inicializando "atual" como o primeiro vértice da lista.
+	VERTICE* atual = get_inicial(grafo->all); //Inicializando "atual" como o primeiro vértice da lista.
 	while (atual) { //Percorrendo cada vértice da lista.
-        for (int i=1;i<=getQuntidadePalavras(atual->amizades)-1;i+=2){
-            char *copy = malloc(strlen(atual->amizades) + 1);
-            char *copy2 = malloc(strlen(atual->amizades) + 1);
-            strcpy(copy, atual->amizades);
-            strcpy(copy2, atual->amizades);
+        for (int i=1;i<=getQuntidadePalavras(get_amizades(atual))-1;i+=2){
+            char *copy = malloc(strlen(get_amizades(atual)) + 1);
+            char *copy2 = malloc(strlen(get_amizades(atual)) + 1);
+            strcpy(copy, get_amizades(atual));
+            strcpy(copy2, get_amizades(atual));
             char *vert_id = getPalavra(copy, i+1, i+1);
             char *vert_afinidade = getPalavra(copy2, i+2, i+2);
             VERTICE *aux = find_lista(grafo->all, atoi(vert_id));
             VERTICE *copy_vert = copy_vertice(aux, atoi(vert_afinidade));
-            inserir_vertex_lista(grafo->amizades[atual->id], copy_vert);
+            inserir_vertex_lista(grafo->amizades[get_id(atual)], copy_vert);
             free(vert_id);
             free(vert_afinidade);
         }
 
-        for (int i=1;i<=getQuntidadePalavras(atual->solicitacoes)-1;i+=2){
-            char *copy = malloc(strlen(atual->solicitacoes) + 1);
-            char *copy2 = malloc(strlen(atual->solicitacoes) + 1);
-            strcpy(copy, atual->solicitacoes);
-            strcpy(copy2, atual->solicitacoes);
+        for (int i=1;i<=getQuntidadePalavras(get_solicitacoes(atual))-1;i+=2){
+            char *copy = malloc(strlen(get_solicitacoes(atual)) + 1);
+            char *copy2 = malloc(strlen(get_solicitacoes(atual)) + 1);
+            strcpy(copy, get_solicitacoes(atual));
+            strcpy(copy2, get_solicitacoes(atual));
             char *vert_id = getPalavra(copy, i+1, i+1);
             char *vert_afinidade = getPalavra(copy2, i+2, i+2);
             VERTICE *aux = find_lista(grafo->all, atoi(vert_id));
             VERTICE *copy_vert = copy_vertice(aux, atoi(vert_afinidade));
-            inserir_vertex_lista(grafo->solicitacoes[atual->id], copy_vert);
+            inserir_vertex_lista(grafo->solicitacoes[get_id(atual)], copy_vert);
             free(vert_id);
             free(vert_afinidade);
         }
 
-		atual = atual->prox; //Indo para o proximo vértice.
+		atual = get_prox(atual); //Indo para o proximo vértice.
 	}
 }
 
 // Faz um match com usuários da rede.
 void sugerirAmizades(Grafo *grafo, VERTICE *vert) {
 
-    VERTICE* atual = grafo->all->inicial; //Inicializando "atual" como o primeiro vértice da lista.
+    VERTICE* atual = get_inicial(grafo->all); //Inicializando "atual" como o primeiro vértice da lista.
 	while (atual) { //Enquanto existir um atual, isso é, "atual != NULL"
         int afinidade = 0;
 
-        if(!strcmp(atual->livro, vert->livro)) afinidade++; 
-        if(!strcmp(atual->filme_predileto, vert->filme_predileto)) afinidade++;
-        if(!strcmp(atual->local_predileto, vert->local_predileto)) afinidade++;
-        if(!strcmp(atual->esporte, vert->esporte)) afinidade++;
-        if(!strcmp(atual->hobby, vert->hobby)) afinidade++;
+        if(!strcmp(get_livro(atual), get_livro(vert))) afinidade++; 
+        if(!strcmp(get_filme_predileto(atual), get_filme_predileto(vert))) afinidade++;
+        if(!strcmp(get_local_predileto(atual), get_local_predileto(vert))) afinidade++;
+        if(!strcmp(get_esporte(atual), get_esporte(vert))) afinidade++;
+        if(!strcmp(get_hobby(atual), get_hobby(vert))) afinidade++;
 
         afinidade *= 20;
 
         if(afinidade >= 20){
-            printf("%d - Usuário: %s\tAfinidade: %d%% \n", atual->id, atual->usuario, afinidade);
+            printf("%d - Usuário: %s\tAfinidade: %d%% \n", get_id(atual), get_usuario(atual), get_afinidade(atual));
         }
 
-        atual = atual->prox; //Indo para o proximo vértice.
+        atual = get_prox(atual); //Indo para o proximo vértice.
 	}
 }
 
@@ -316,9 +316,9 @@ void sugerirAmizades(Grafo *grafo, VERTICE *vert) {
 void enviarSolicitacao(Grafo *grafo, int id, char* usuario) {
 
     VERTICE *user = find_lista_name(grafo->all, usuario);
-    VERTICE *atual = grafo->all->inicial; //Inicializando "atual" como o primeiro vértice da lista.
+    VERTICE *atual = get_inicial(grafo->all); //Inicializando "atual" como o primeiro vértice da lista.
 	while (atual) { //Enquanto existir um atual, isso é, "atual != NULL"
-        if(atual->id == id){
+        if(get_id(atual) == id){
             if(find_lista_name(grafo->solicitacoes[id], usuario)!=NULL){
                 printf("Você já enviou uma solicitação para essa pessoa.\n");
                 whaitEnter();
@@ -327,33 +327,34 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario) {
                 printf("Você já é amigo dessa pessoa :P\n");
                 whaitEnter();
                 return;
-            } else if(find_lista(grafo->solicitacoes[user->id], id)!=NULL){
+            } else if(find_lista(grafo->solicitacoes[get_id(user)], id)!=NULL){
                 printf("Essa pessoa já lhe enviou uma solicitação :0\n");
                 whaitEnter();
                 return;
-            } else if(id == user->id){
+            } else if(id == get_id(user)){
                 printf("Você não pode adicionar você mesmo >:C\n");
                 whaitEnter();
                 return;
             }
             char aux_char[10];
-            sprintf(aux_char, " %d", user->id);
-            atual->solicitacoes = concatenar(atual->solicitacoes, aux_char);
+            sprintf(aux_char, " %d", get_id(user));
+            strcpy(get_solicitacoes(atual), concatenar(get_solicitacoes(atual), aux_char));
 
-            int afinidade = 0;
-            if(!strcmp(atual->livro, user->livro)) afinidade++; 
-            if(!strcmp(atual->filme_predileto, user->filme_predileto)) afinidade++;
-            if(!strcmp(atual->local_predileto, user->local_predileto)) afinidade++;
-            if(!strcmp(atual->esporte, user->esporte)) afinidade++;
-            if(!strcmp(atual->hobby, user->hobby)) afinidade++;
+			int afinidade = 0;
+	        if(!strcmp(get_livro(atual), get_livro(user))) afinidade++; 
+    	    if(!strcmp(get_filme_predileto(atual), get_filme_predileto(user))) afinidade++;
+       		if(!strcmp(get_local_predileto(atual), get_local_predileto(user))) afinidade++;
+        	if(!strcmp(get_esporte(atual), get_esporte(user))) afinidade++;
+        	if(!strcmp(get_hobby(atual), get_hobby(user))) afinidade++;
+
             afinidade *= 20;
 
             sprintf(aux_char, " %d", afinidade);
-            atual->solicitacoes = concatenar(atual->solicitacoes, aux_char);
+            strcpy(get_solicitacoes(atual), concatenar(get_solicitacoes(atual), aux_char));
             inserir_vertex_lista(grafo->solicitacoes[id], copy_vertice(user, afinidade));
         }
 
-        atual = atual->prox; //Indo para o proximo vértice.
+        atual = get_prox(atual); //Indo para o proximo vértice.
 	}
 
     writeFile(grafo);
@@ -363,36 +364,36 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario) {
 
 void printSolicitacoes(Grafo *grafo, int id){ //Printar as solicitações de amizade ao usuário.
     int contador = 0;
-    VERTICE* atual = grafo->solicitacoes[id]->inicial; //Inicializando "atual" como o primeiro vértice da lista.
+    VERTICE* atual = get_inicial(grafo->solicitacoes[id]); //Inicializando "atual" como o primeiro vértice da lista.
 	while (atual) { //Enquanto existir um atual, isso é, "atual != NULL"
         contador++;
-		printf("%d - Usuário: %s\tAfinidade: %d%%\n",contador, atual->usuario, atual->afinidade);
-        atual = atual->prox; //Indo para o proximo vértice.
+		printf("%d - Usuário: %s\tAfinidade: %d%%\n",contador, get_usuario(atual), get_afinidade(atual));
+        atual = get_prox(atual); //Indo para o proximo vértice.
 	}
 }
 
 void aceitarSolicitacao(int id, int index, Grafo *grafo){ //Aceitar uma solicitação de amizade.
     int contador = 0;
     VERTICE *usuario_ver = find_lista(grafo->all, id);
-    VERTICE *atual = grafo->solicitacoes[id]->inicial; //Inicializando "atual" como o primeiro vértice da lista.
+    VERTICE *atual = get_inicial(grafo->solicitacoes[id]); //Inicializando "atual" como o primeiro vértice da lista.
 	while (contador != index-1) { //Enquanto existir um atual, isso é, "atual != NULL"
         contador++;
-        atual = atual->prox; //Indo para o proximo vértice.
+        atual = get_prox(atual); //Indo para o proximo vértice.
 	}
 
     index *= 2;
 
     char aux_char[20];
-    sprintf(aux_char, " %d %d", atual->id, atual->afinidade);
+    sprintf(aux_char, " %d %d", get_id(atual), get_afinidade(atual));
 
-    usuario_ver->solicitacoes = apagarPalavra(index, index+1, usuario_ver->solicitacoes);
-    usuario_ver->amizades = concatenar(usuario_ver->amizades, aux_char);
+    strcpy(get_solicitacoes(usuario_ver), apagarPalavra(index, index+1, get_solicitacoes(usuario_ver)));
+    strcpy(get_amizades(usuario_ver), concatenar(get_amizades(usuario_ver), aux_char));
 
 
-    sprintf(aux_char, " %d %d", usuario_ver->id, atual->afinidade);
+    sprintf(aux_char, " %d %d", get_id(usuario_ver), get_afinidade(atual));
 
-    atual = find_lista(grafo->all, atual->id);
-    atual->amizades = concatenar(atual->amizades, aux_char);
+    atual = find_lista(grafo->all, get_id(atual));
+    strcpy(get_amizades(atual), concatenar(get_amizades(atual), aux_char));
 
     writeFile(grafo);
 }
@@ -400,15 +401,15 @@ void aceitarSolicitacao(int id, int index, Grafo *grafo){ //Aceitar uma solicita
 void rejeitarSolicitacao(int id, int index, Grafo *grafo){ //Rejeitar uma solicitação de amizade.
     int contador = 0;
     VERTICE *usuario_ver = find_lista(grafo->all, id);
-    VERTICE *atual = grafo->solicitacoes[id]->inicial; //Inicializando "atual" como o primeiro vértice da lista.
+    VERTICE *atual = get_inicial(grafo->solicitacoes[id]); //Inicializando "atual" como o primeiro vértice da lista.
     while (contador != index-1) { //Enquanto existir um atual, isso é, "atual != NULL"
         contador++;
-        atual = atual->prox; //Indo para o proximo vértice.
+        atual = get_prox(atual); //Indo para o proximo vértice.
     }
 
     index *= 2;
 
-    usuario_ver->solicitacoes = apagarPalavra(index, index+1, usuario_ver->solicitacoes);
+    strcpy(get_solicitacoes(usuario_ver), apagarPalavra(index, index+1, get_solicitacoes(usuario_ver)));
 
     writeFile(grafo);
 }
@@ -417,9 +418,34 @@ int enviarSolicitacaoNome(char *user,char *target, Grafo *grafo){ //Enviar solic
     VERTICE *aux;
     if((aux = find_lista_name(grafo->all, target)) == NULL) return 1;
 
-    enviarSolicitacao(grafo, aux->id, user);
+    enviarSolicitacao(grafo, get_id(aux), user);
 
     return 0;
+}
+
+
+//Printa os usuários considerados extrovertidos e introvertidos da sua lista de amigos e de amigos de amigos..
+void extroIntro(Grafo *grafo){
+	VERTICE *curr = get_inicial(grafo->all);
+	while(curr!=NULL){
+		VERTICE *aux = get_inicial(grafo->amizades[get_id(curr)]);
+		int trueFriends = 0;
+		int max = 0;
+		while(aux!=NULL){
+			if(get_afinidade(aux) >= 70)
+				trueFriends++;
+			max++;
+			aux = get_prox(aux);
+		}
+		if((float)trueFriends/max >= 0.8){
+			printf("%s: EXTROVERTIDO(A)\n", get_usuario(curr));
+		}
+		if((float)trueFriends/max <= 0.2){
+			printf("%s: INTROVERTIDO(A)\n", get_usuario(curr)); 
+		}
+		curr = get_prox(curr);
+	}
+	printf("\n");
 }
 
 //GETTERS
@@ -427,10 +453,14 @@ LISTA *get_all(Grafo *g){
 	return g->all;
 }
 
-LISTA *get_amizades(Grafo *g, int i){
+LISTA *get_lista_amizades(Grafo *g, int i){
 	return g->amizades[i];
 }
 
-LISTA *get_solicitacoes(Grafo *g, int i){
+LISTA *get_lista_solicitacoes(Grafo *g, int i){
 	return g->solicitacoes[i];
+}
+
+int get_n_elementos(Grafo *g){
+	return g->n_elementos;
 }

@@ -15,26 +15,8 @@
 #define MAXN 110
 #define READLINE_BUFFER 4096
 
-typedef struct Vertice{
-    char *usuario;
-    char *genero;
-    char *filme_predileto;
-    char *local_predileto;
-    char *hobby;
-    char *livro;
-    char *esporte;
-    int idade;
-    int id;
-    int afinidade;
-    char *solicitacoes;
-    char *amizades;
-    struct Vertice *prox;
-} VERTICE;
-
-typedef struct Lista{
-    VERTICE *inicial;
-    VERTICE *final;
-} LISTA;
+typedef struct Vertice VERTICE;
+typedef struct Lista LISTA;
 
 //Lista
 LISTA* criar_lista(); //Inicializar uma lista.
@@ -55,4 +37,20 @@ void printVertice(VERTICE *vertice); //Printar as informações do vértice.
 
 //Getters e Setters
 VERTICE *get_inicial(LISTA *list);
+VERTICE *get_final(LISTA *list);
+
+VERTICE *get_prox(VERTICE *vert);
+int get_id(VERTICE *vert);
+char *get_usuario(VERTICE *vert);
+char *get_livro(VERTICE *vert);
+char *get_genero(VERTICE *vert);
+char *get_filme_predileto(VERTICE *vert);
+char *get_local_predileto(VERTICE *vert);
+char *get_hobby(VERTICE *vert);
+char *get_esporte(VERTICE *vert);
+int get_idade(VERTICE *vert);
+int get_afinidade(VERTICE *vert);
+char *get_amizades(VERTICE *vert);
+char *get_solicitacoes(VERTICE *vert);	
+
 #endif

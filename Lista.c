@@ -9,6 +9,10 @@
 *
 */
 
+/**
+ * TAD Lista
+ */
+
 #include "Lista.h"
 #include "utils.h"
 
@@ -16,9 +20,30 @@
 #include <stdlib.h>
 #include <string.h>
 
+struct Vertice{
+    char *usuario;
+    char *genero;
+    char *filme_predileto;
+    char *local_predileto;
+    char *hobby;
+    char *livro;
+    char *esporte;
+    int idade;
+    int id;
+    int afinidade;
+    char *solicitacoes;
+    char *amizades;
+    struct Vertice *prox;
+};
+
+struct Lista{
+    VERTICE *inicial;
+    VERTICE *final;
+};
+
 //Inicializa uma lista.
 LISTA* criar_lista() {
-    LISTA* list = (LISTA*)malloc(sizeof(LISTA)); //Alocando memória.
+    LISTA* list = (LISTA*)malloc(sizeof(LISTA));
     if(list != NULL){
 		list->inicial = NULL; 
     	list->final = NULL;
@@ -101,7 +126,8 @@ void limpar_lista(LISTA* list){
     free(list); //Livrando memória.
 }
 
-VERTICE* copy_vertice(VERTICE *vertice, int afinidade){ //Copia os dados de um vértice.
+//Copia os dados de um vértice.
+VERTICE* copy_vertice(VERTICE *vertice, int afinidade){
     VERTICE* vert = (VERTICE*)malloc(sizeof(VERTICE));
     vert->usuario = (char*) malloc(sizeof(char) * (strlen(vertice->usuario) + 1));
     strcpy(vert->usuario, vertice->usuario);
@@ -128,7 +154,8 @@ VERTICE* copy_vertice(VERTICE *vertice, int afinidade){ //Copia os dados de um v
     return vert; //Retornando um ponteiro para um vértice inicializado.
 }
 
-VERTICE* find_lista(LISTA* list, int ident){ //Procurar elemento na lista.
+//Procurar elemento na lista.
+VERTICE* find_lista(LISTA* list, int ident){
     VERTICE* atual = list->inicial; //Inicializando "atual" como o primeiro vértice da lista.
 	while (atual) { //Percorrendo cada vértice da lista.
 		if (atual->id == ident) return atual; //Caso achemos o vértice desejado , retorna-se um ponteiro
@@ -138,7 +165,8 @@ VERTICE* find_lista(LISTA* list, int ident){ //Procurar elemento na lista.
 	return NULL;
 }
 
-VERTICE* find_lista_name(LISTA* list, char* user){ //Procurar elemento na lista pelo nome de usuário.
+//Procurar elemento na lsita pelo nome de usuário.
+VERTICE* find_lista_name(LISTA* list, char* user){
     VERTICE* atual = list->inicial; //Inicializando "atual" como o primeiro vértice da lista.
 	while (atual) { //Percorrendo cada vértice da lista.
 		if (strcmp(atual->usuario, user)==0) return atual; //Caso achemos o vértice desejado , retorna-se um ponteiro
@@ -148,7 +176,8 @@ VERTICE* find_lista_name(LISTA* list, char* user){ //Procurar elemento na lista 
 	return NULL;
 }
 
-VERTICE* find_anterior_lista(LISTA* list, int ident){ //Procurar elemento anterior ao desejado, na lista.
+//Procurar elemento anterior ao desejado, na lista.
+VERTICE* find_anterior_lista(LISTA* list, int ident){
     VERTICE* atual = list->inicial; //Inicializando "atual" como o primeiro vértice da lista.
 	while (atual->prox) { //Percorrendo cada vértice da lista.
 		if (atual->prox->id == ident) return atual; //Caso achemos o vértice desejado, retorna-se um ponteiro
@@ -158,7 +187,8 @@ VERTICE* find_anterior_lista(LISTA* list, int ident){ //Procurar elemento anteri
 	return NULL;
 }
 
-void inserir_lista(LISTA* list, int ident){ //Inserir elemento na lista.
+//Inserir elemento na lista.
+void inserir_lista(LISTA* list, int ident){
     VERTICE *aux_ver = find_lista(list, ident);
     if (aux_ver != NULL) return; //Caso o vértice já exista, não precisamos o adicionar.
 
@@ -178,7 +208,8 @@ void inserir_lista(LISTA* list, int ident){ //Inserir elemento na lista.
     return;
 }
 
-void inserir_vertex_lista(LISTA* list, VERTICE *ver){ //Inserir elemento na lista.
+//Inserir elemento na lista.
+void inserir_vertex_lista(LISTA* list, VERTICE *ver){
     if (find_lista(list, ver->id) != NULL) return; //Caso o vértice já exista, não precisamos o adicionar.
 
     if (list->inicial==NULL){ //Caso não exista elementos na lista.
@@ -195,7 +226,8 @@ void inserir_vertex_lista(LISTA* list, VERTICE *ver){ //Inserir elemento na list
     return;
 }
 
-void printVertice(VERTICE *vertice){ //Printar as informações do vértice.
+//Printar as informações do vértice.
+void printVertice(VERTICE *vertice){
     printf("Usuário: %s\n",vertice->usuario);
     printf("Gênero: %s\n",vertice->genero);
     printf("Filme predileto: %s\n",vertice->filme_predileto);
@@ -206,6 +238,7 @@ void printVertice(VERTICE *vertice){ //Printar as informações do vértice.
     printf("Idade: %d\n",vertice->idade);
 }
 
+//Cria um vértice.
 VERTICE* criar_vertice(char *usuario, char *genero, char *filme_predileto , char *local_predileto,
 char *hobby, char * livro, char *esporte, int idade, int id, char *solicitacoes, char *amizades){ 
     //Inicializando um vértice.
@@ -235,4 +268,63 @@ char *hobby, char * livro, char *esporte, int idade, int id, char *solicitacoes,
     return vert; //Retornando um ponteiro para um vértice inicializado.
 }
 
+//GETTERS
+VERTICE *get_inicial(LISTA *list){
+	return list->inicial;
+}
 
+VERTICE *get_final(LISTA *list){
+	return list->final;
+}
+
+int get_id(VERTICE *vert){
+	return vert->id;
+}
+
+char *get_usuario(VERTICE *vert){
+	return vert->usuario;
+}
+
+char *get_livro(VERTICE *vert){
+	return vert->livro;
+}
+
+char *get_genero(VERTICE *vert){
+	return vert->genero;
+}
+
+char *get_filme_predileto(VERTICE *vert){
+	return vert->filme_predileto;
+}
+
+char *get_local_predileto(VERTICE *vert){
+	return vert->local_predileto;
+}
+
+char *get_hobby(VERTICE *vert){
+	return vert->hobby;
+}
+
+char *get_esporte(VERTICE *vert){
+	return vert->esporte;
+}
+
+int get_idade(VERTICE *vert){
+	return vert->idade;
+}
+
+int get_afinidade(VERTICE *vert){
+	return vert->afinidade;
+}
+
+char *get_amizades(VERTICE *vert){
+	return vert->amizades;
+}
+
+char *get_solicitacoes(VERTICE *vert){
+	return vert->solicitacoes;
+}
+
+VERTICE *get_prox(VERTICE *vert){
+	return vert->prox;
+}

@@ -3,6 +3,8 @@
 
 #include "Lista.h"
 
+//TAD para a estrutura da Rede Social
+
 typedef struct grafo Grafo;
 
 //Grafo
@@ -30,8 +32,8 @@ void rejeitarSolicitacao(int id, int index, Grafo *grafo); //Rejeitar uma solici
 int enviarSolicitacaoNome(char *user,char *target, Grafo *grafo); //Enviar solicitação pelo nome do usuário.
 
 LISTA *get_all(Grafo *g);
-LISTA *get_amizades(Grafo *g, int i);
-LISTA *get_solicitacoes(Grafo *g, int i);
+LISTA *get_lista_amizades(Grafo *g, int i);
+LISTA *get_lista_solicitacoes(Grafo *g, int i);
 
 
 #endif

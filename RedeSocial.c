@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "Grafo.h"
 #include "Lista.h"
 #include "utils.h"
@@ -99,7 +100,7 @@ int main () {
 			case 4:
 				system("clear");
                 VERTICE *user_vertice = find_lista_name(get_all(grafo), usuario);
-                printSolicitacoes(grafo, user_vertice->id);
+                printSolicitacoes(grafo, get_id(user_vertice));
                 printf("\nOpções:\n");
                 printf("1 - Aceitar solicitação\n");
                 printf("2 - Rejeitar solicitação\n");
@@ -109,7 +110,7 @@ int main () {
                     int index;
                     printf("Digite o índice correspondente a pessoa que você quer adicionar: ");
                     scanf("%d", &index);
-                    aceitarSolicitacao(user_vertice->id, index, grafo);
+                    aceitarSolicitacao(get_id(user_vertice), index, grafo);
                     whaitEnter();
                     // enviarSolicitacao(grafo, index, usuario);
                     // printar_lista(grafo->all);
@@ -117,7 +118,7 @@ int main () {
                     int index;
                     printf("Digite o índice correspondente a solicitação que você deseja rejeitar: ");
                     scanf("%d", &index);
-                    rejeitarSolicitacao(user_vertice->id, index, grafo);
+                    rejeitarSolicitacao(get_id(user_vertice), index, grafo);
                     whaitEnter();
                 }
 				break;
