@@ -185,7 +185,7 @@ char *hobby, char * livro, char *esporte, char *amigos, char *solicitacoes, char
  * ALGORITMOS 
  */
 void dfs(Grafo *g){
-
+	
 }
 
 void visita_dfs(Grafo *g){
@@ -354,7 +354,7 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario) {
             }
             char aux_char[10];
             sprintf(aux_char, " %d", get_id(user));
-            strcpy(get_solicitacoes(atual), concatenar(get_solicitacoes(atual), aux_char));
+            set_solicitacoes(atual, concatenar(get_solicitacoes(atual), aux_char));
 
 			int afinidade = 0;
 	        if(!strcmp(get_livro(atual), get_livro(user))) afinidade++; 
@@ -366,7 +366,7 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario) {
             afinidade *= 20;
 
             sprintf(aux_char, " %d", afinidade);
-            strcpy(get_solicitacoes(atual), concatenar(get_solicitacoes(atual), aux_char));
+            set_solicitacoes(atual, concatenar(get_solicitacoes(atual), aux_char));
             inserir_vertex_lista(grafo->solicitacoes[id], copy_vertice(user, afinidade));
         }
 
@@ -404,14 +404,14 @@ void aceitarSolicitacao(int id, int index, Grafo *grafo){
     char aux_char[20];
     sprintf(aux_char, " %d %d", get_id(atual), get_afinidade(atual));
 
-    strcpy(get_solicitacoes(usuario_ver), apagarPalavra(index, index+1, get_solicitacoes(usuario_ver)));
-    strcpy(get_amizades(usuario_ver), concatenar(get_amizades(usuario_ver), aux_char));
+    set_solicitacoes(usuario_ver, apagarPalavra(index, index+1, get_solicitacoes(usuario_ver)));
+    set_amizades((usuario_ver), concatenar(get_amizades(usuario_ver), aux_char));
 
 
     sprintf(aux_char, " %d %d", get_id(usuario_ver), get_afinidade(atual));
 
     atual = find_lista(grafo->all, get_id(atual));
-    strcpy(get_amizades(atual), concatenar(get_amizades(atual), aux_char));
+    set_amizades(atual, concatenar(get_amizades(atual), aux_char));
 
     writeFile(grafo);
 }
@@ -428,7 +428,7 @@ void rejeitarSolicitacao(int id, int index, Grafo *grafo){
 
     index *= 2;
 
-    strcpy(get_solicitacoes(usuario_ver), apagarPalavra(index, index+1, get_solicitacoes(usuario_ver)));
+    set_solicitacoes(usuario_ver, apagarPalavra(index, index+1, get_solicitacoes(usuario_ver)));
 
     writeFile(grafo);
 }
