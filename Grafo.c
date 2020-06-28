@@ -199,9 +199,23 @@ void visita_dfs(Grafo *g){
 
 //Registra o usuário na rede social.
 void registrar(Grafo *grafo, char **usuario){
-    printf("Escolha um nome de usuário: ");
-    scanf("\n");
-    *usuario = readline(stdin);
+   	while(1){
+		int exist = 0;
+		printf("Escolha um nome de usuário: ");
+   		scanf("\n");
+   		*usuario = readline(stdin);
+		VERTICE *curr = get_inicial(grafo->all);
+		while(curr!=NULL){
+			if(!strcmp(*usuario, get_usuario(curr))){
+				exist = 1;
+				printf("Nome de usuário já existe.\n");
+				break;
+			}
+			curr = get_prox(curr);
+		}
+		if(exist == 0) break;
+		free(curr);
+	}
 
     printf("Qual o seu gênero? ");
     scanf("\n");
