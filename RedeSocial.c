@@ -91,7 +91,7 @@ int main () {
                     int *visitados = (int *) calloc(MAXN, sizeof(int));
                     QUEUE *q = criar_queue();
                     insert(q, id_user, 0);
-                    bfsSugetao(grafo, q, id_user, &visitados);
+                    bfsSugestao(grafo, q, id_user, &visitados);
                     limpar_fila(q);
                     free(visitados);
                     printf("\nOpções:\n");
@@ -104,6 +104,12 @@ int main () {
                         scanf("%d", &index);
                         enviarSolicitacao(grafo, index, usuario);
                     }
+                    break;
+                }
+                case 3:{
+                    system("clear");
+                    checarAmizades(grafo, usuario);
+                    whaitEnter();
                     break;
                 }
                 case 4:{

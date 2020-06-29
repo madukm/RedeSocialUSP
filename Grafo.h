@@ -4,6 +4,8 @@
 #include "Lista.h"
 #include "Fila.h"
 
+#define AFFINITY_COEFFICIENT 70
+
 //TAD para a estrutura da Rede Social
 
 typedef struct grafo Grafo;
@@ -36,7 +38,9 @@ void aceitarSolicitacao(int id, int index, Grafo *grafo); //Aceitar uma solicita
 void rejeitarSolicitacao(int id, int index, Grafo *grafo); //Rejeitar uma solicitação de amizade.
 int enviarSolicitacaoNome(char *user,char *target, Grafo *grafo); //Enviar solicitação pelo nome do usuário.
 void dfsExtroIntro(Grafo *grafo, int id_usuario, int **visitados, int **max, int **trueFriends);
-void bfsSugetao(Grafo *grafo, QUEUE *q, int id_usuario, int **visitados); //Realiza busca em profundidade para poder sugerir amizades ao usuário.
+void bfsSugestao(Grafo *grafo, QUEUE *q, int id_usuario, int **visitados); //Realiza busca em largura para poder sugerir amizades ao usuário.
+void checarAmizades(Grafo *grafo, char *name); //Printar amigos e alertar nivel de afinidade alarmante.
+void excluirAmizade(Grafo *grafo, int index, int id_usuario); //Desfazer amizade.
 
 LISTA *get_all(Grafo *g);
 LISTA *get_lista_amizades(Grafo *g, int i);

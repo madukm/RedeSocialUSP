@@ -493,7 +493,7 @@ void dfsExtroIntro(Grafo *grafo, int id_usuario, int **visitados, int **max, int
 }
 
 //Realiza busca em largura para poder sugerir amizades ao usuário.
-void bfsSugetao(Grafo *grafo, QUEUE *q, int id_usuario, int **visitados) {
+void bfsSugestao(Grafo *grafo, QUEUE *q, int id_usuario, int **visitados) {
 
     VERTICE *atual = get_inicial(grafo->amizades[getFirstID(q)]);
     if((*visitados)[getFirstID(q)] == 0) {
@@ -526,10 +526,65 @@ void bfsSugetao(Grafo *grafo, QUEUE *q, int id_usuario, int **visitados) {
 
         if(getSize(q) == 0) return; //Condição de parada.
 
-        bfsSugetao(grafo, q, id_usuario, visitados); //Recursão.
+        bfsSugestao(grafo, q, id_usuario, visitados); //Recursão.
     }
 
     return;
+}
+
+void checarAmizades(Grafo *grafo, char *name){ //Printar amigos e alertar nivel de afinidade alarmante.
+    VERTICE *user = find_lista_name(grafo->all, name);
+
+    VERTICE *atual = get_inicial(grafo->amizades[get_id(user)]);
+
+    if(atual == NULL){
+        printf("Você não tem amigos :(\n");
+    } else {
+
+        printf("Amizades:\n");
+        int index = 0;
+        while(atual){
+            index++;
+            int afinidade = 0;
+            if(!strcmp(get_livro(atual), get_livro(user))) afinidade++; 
+            if(!strcmp(get_filme_predileto(atual), get_filme_predileto(user))) afinidade++;
+            if(!strcmp(get_local_predileto(atual), get_local_predileto(user))) afinidade++;
+            if(!strcmp(get_esporte(atual), get_esporte(user))) afinidade++;
+            if(!strcmp(get_hobby(atual), get_hobby(user))) afinidade++;
+            afinidade *= 20;
+
+            printf("%d - \tUsuário: %s\tAfinidade: %d%%", index, get_usuario(atual), 
+            afinidade);
+            if(get_afinidade(atual) < AFFINITY_COEFFICIENT){
+                printf(" (Biaxo nivel de afinidade!)\n");
+            } else {
+                printf("\n");
+            }
+            atual = get_prox(atual);
+        }
+
+        printf("Opções: \n");
+        printf("1 - Exlcuir amizade :(\n");
+        printf("2 - Voltar ao menu\n");
+
+        int opcao;
+        scanf("%d", &opcao);
+
+        if(opcao == 1){
+            printf("Digite o índice da pessoa com que você quer desfazer amizade: ");
+            scanf("%d", &index);
+            excluirAmizade(grafo, index, get_id(user));
+        }
+    }
+}
+
+void excluirAmizade(Grafo *grafo, int index, int id_usuario){ //Desfazer amizade.
+    VERTICE *usuario_ver = find_lista(grafo->all, id_usuario);
+
+    index *= 2;
+    set_amizades(usuario_ver, apagarPalavra(index, index+1, get_amizades(usuario_ver)));
+
+    writeFile(grafo);
 }
 
 //GETTERS
