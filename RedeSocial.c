@@ -73,7 +73,7 @@ int main () {
         printf("4 - Solicitações\n");
         printf("5 - Adicionar amigo\n");
         printf("6 - Mostrar meu perfil\n");
-		printf("5 - Listar extrovertidos e introvertidos\n");
+		printf("7 - Listar extrovertidos e introvertidos\n");
 		printf("8 - Logoff\n");
         printf("9 - Sair\n");
 		scanf("%d", &operacao);
@@ -83,7 +83,7 @@ int main () {
             	printar_lista(get_all(grafo));
             	whaitEnter();
 				break;
-			case 2:
+			case 2:{
                 system("clear");
                 int id_user = get_id(find_lista_name(get_all(grafo), usuario));
                 int *visitados = (int *) calloc(MAXN, sizeof(int));
@@ -103,8 +103,9 @@ int main () {
                 	enviarSolicitacao(grafo, index, usuario);
             	}
 				break;
-			case 4:
-				system("clear");
+			}
+			case 4:{
+	   		    system("clear");
                 VERTICE *user_vertice = find_lista_name(get_all(grafo), usuario);
                 printSolicitacoes(grafo, get_id(user_vertice));
                 printf("\nOpções:\n");
@@ -128,34 +129,45 @@ int main () {
                     whaitEnter();
                 }
 				break;
-            case 5:
+			}
+            case 5:{
                 while(1) {
-                system("clear");
-                printf("Opções:\n");
-                printf("1 - Voltar para a tela inicial\n");
-                printf("Digite o nome do usuário que deja adicionar: ");
-                scanf(" ");
-                char *target = readline(stdin);
-                if(strcmp(target, "1")==0){
-                    free(target);
-                    break;
-                } else if(!enviarSolicitacaoNome(usuario, target, grafo)){
-                    free(target);
-                    break;
-                }
-                free(target);
-                printf("Usuário invalido!\n");
-            }
+                	system("clear");
+                	printf("Opções:\n");
+                	printf("1 - Voltar para a tela inicial\n");
+                	printf("Digite o nome do usuário que deja adicionar: ");
+                	scanf(" ");
+                	char *target = readline(stdin);
+                	if(strcmp(target, "1")==0){
+                	    free(target);
+                	    break;
+                	} else if(!enviarSolicitacaoNome(usuario, target, grafo)){
+                	    free(target);
+                	    break;
+                	}
+                	free(target);
+                	printf("Usuário invalido!\n");
+            	}
                 break;
+			}
 			case 6:
 				system("clear");
             	printVertice(find_lista_name(get_all(grafo), usuario));
             	whaitEnter();
 				break;
-			case 7:
+			case 7:{
 				system("clear");
-				// extroIntro(grafo);
+	            int id_user = get_id(find_lista_name(get_all(grafo), usuario));
+                int *visitados = (int *) calloc(MAXN, sizeof(int));
+				int *max = (int *) calloc(MAXN, sizeof(int));
+				int *trueFriends = (int *) calloc(MAXN, sizeof(int));
+				dfsExtroIntro(grafo, id_user, &visitados, &max, &trueFriends);
+				free(visitados);
+				free(max);
+				free(trueFriends);
+				whaitEnter();
 				break;
+			}
 			case 9:
 				printf("Tchau %s, até a próxima ;)\n", usuario);
             	free(usuario);

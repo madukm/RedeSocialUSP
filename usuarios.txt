@@ -7,8 +7,13 @@ livro: 1984
 hobby: cinema
 esporte: corrida
 id: 1
+<<<<<<< Updated upstream
 pedidos: 
 amizades: 3 20 2 0
+=======
+pedidos:
+amizades: 4 20
+>>>>>>> Stashed changes
 usuario: ciclano
 genero: feminino
 idade: 21
@@ -29,8 +34,13 @@ livro: feliz ano velho
 hobby: programar
 esporte: ping pong
 id: 3
+<<<<<<< Updated upstream
 pedidos: 
 amizades: 6 0 1 20
+=======
+pedidos: 4 40
+amizades:
+>>>>>>> Stashed changes
 usuario: matheushw
 genero: masculino
 idade: 19
@@ -40,8 +50,13 @@ livro: nenhum
 hobby: programar
 esporte: handball
 id: 4
+<<<<<<< Updated upstream
 pedidos:
 amizades: 5 20 6 20
+=======
+pedidos: 
+amizades: 6 20 1 20
+>>>>>>> Stashed changes
 usuario: notolia
 genero: feminino
 idade: 19
@@ -63,4 +78,41 @@ hobby: peidar
 esporte: cagar
 id: 6
 pedidos: 
+<<<<<<< Updated upstream
 amizades: 4 20 3 0
+=======
+amizades: 4 20
+usuario: teste
+genero: feminino
+idade: 20
+filme_predileto: os vingadores
+local_predileto: icmc
+livro: os miseraveis
+hobby: programar
+esporte: basquete
+id: 7
+pedidos:
+amizades:
+usuario: Teste
+genero: feminino
+idade: 20
+filme_predileto: os vingadores
+local_predileto: icmc
+livro: os miseraveis
+hobby: programar
+esporte: basquete
+id: 8
+pedidos:
+amizades:
+usuario: usuario
+genero: feminino
+idade: 20
+filme_predileto: os vingadores
+local_predileto: icmc
+livro: os miseraveis
+hobby: programar
+esporte: basquete
+id: 9
+pedidos:
+amizades:
+>>>>>>> Stashed changes

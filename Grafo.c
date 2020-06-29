@@ -1,4 +1,4 @@
-/*
+/**
 *   Modelagem Computacional em Grafos
 *
 *   Aluno: Matheus Barcellos de Castro Cunha
@@ -457,31 +457,42 @@ int enviarSolicitacaoNome(char *user,char *target, Grafo *grafo){
     return 0;
 }
 
-//Printa os usuários considerados extrovertidos e introvertidos da sua lista de amigos e de amigos de amigos..
-void extroIntro(Grafo *grafo){
-	VERTICE *curr = get_inicial(grafo->all);
-	while(curr!=NULL){
-		VERTICE *aux = get_inicial(grafo->amizades[get_id(curr)]);
-		int trueFriends = 0;
-		int max = 0;
-		while(aux!=NULL){
-			if(get_afinidade(aux) >= 70)
-				trueFriends++;
-			max++;
-			aux = get_prox(aux);
-		}
-		if((float)trueFriends/max >= 0.8){
-			printf("%s: EXTROVERTIDO(A)\n", get_usuario(curr));
-		}
-		if((float)trueFriends/max <= 0.2){
-			printf("%s: INTROVERTIDO(A)\n", get_usuario(curr)); 
-		}
+//Printa os usuários considerados extrovertidos e introvertidos da sua lista de amigos e de amigos de amigos e assim em diante.
+//Utiliza uma busca em profundidade.
+void dfsExtroIntro(Grafo *grafo, int id_usuario, int **visitados, int **max, int **trueFriends){
+	
+	(*visitados)[id_usuario] = 1;
+	
+	VERTICE *curr = get_inicial(grafo->amizades[id_usuario]);
+		
+	while(curr!=NULL){	
+	
+		if(get_afinidade(curr) >= 70)
+			(*trueFriends)[id_usuario]++;
+		(*max)[id_usuario]++;
+		
+		if((*visitados)[get_id(curr)] == 0)
+			dfsExtroIntro(grafo, get_id(curr), visitados, max, trueFriends);
+
 		curr = get_prox(curr);
 	}
-	printf("\n");
+
+	VERTICE *user = find_lista(grafo->all, id_usuario);
+
+	if((*max)[id_usuario] == 0 || (float)(*trueFriends)[id_usuario]/(*max)[id_usuario] <= 0.2){
+		printf("%s: INTROVERTIDO(A)\n", get_usuario(user));
+	}
+	else if((float)(*trueFriends)[id_usuario]/(*max)[id_usuario] >= 0.8){
+		printf("%s: EXTROVERTIDO(A)\n", get_usuario(user));
+	}
+	else{
+		printf("%s: AMBIVERTIDO(A)\n", get_usuario(user));
+	}	
+
+	return;
 }
 
-//Realiza busca em profundidade para poder sugerir amizades ao usuário.
+//Realiza busca em largura para poder sugerir amizades ao usuário.
 void bfsSugetao(Grafo *grafo, QUEUE *q, int id_usuario, int **visitados) {
 
     VERTICE *atual = get_inicial(grafo->amizades[getFirstID(q)]);

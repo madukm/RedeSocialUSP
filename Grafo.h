@@ -35,6 +35,7 @@ void printSolicitacoes(Grafo *grafo, int id); //Printar as solicitações de ami
 void aceitarSolicitacao(int id, int index, Grafo *grafo); //Aceitar uma solicitação de amizade.
 void rejeitarSolicitacao(int id, int index, Grafo *grafo); //Rejeitar uma solicitação de amizade.
 int enviarSolicitacaoNome(char *user,char *target, Grafo *grafo); //Enviar solicitação pelo nome do usuário.
+void dfsExtroIntro(Grafo *grafo, int id_usuario, int **visitados, int **max, int **trueFriends);
 void bfsSugetao(Grafo *grafo, QUEUE *q, int id_usuario, int **visitados); //Realiza busca em profundidade para poder sugerir amizades ao usuário.
 
 LISTA *get_all(Grafo *g);
