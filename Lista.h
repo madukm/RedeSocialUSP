@@ -53,6 +53,13 @@ int get_afinidade(VERTICE *vert);
 char *get_amizades(VERTICE *vert);
 char *get_solicitacoes(VERTICE *vert);	
 
+void set_filme_predileto(VERTICE *vert, char *filme);
+void set_local_predileto(VERTICE *vert, char *local);
+void set_hobby(VERTICE *vert, char *hobby);
+void set_esporte(VERTICE *vert, char *esporte);
+void set_livro(VERTICE *vert, char *livro);
+void set_genero(VERTICE *vert, char *genero);
+void set_idade(VERTICE *vert, int idade);
 void set_solicitacoes(VERTICE *vert, char *solicitacoes);
 void set_amizades(VERTICE *vert, char *amizades);
 

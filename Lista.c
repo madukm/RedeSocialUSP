@@ -92,13 +92,13 @@ void printar_lista(LISTA* list) {
 		printf("--------------------------------------\n");
 		printf("Usuário: %s\n",atual->usuario);
 		printf("Gênero: %s\n",atual->genero);
-		printf("Filme predileto: %s\n",atual->filme_predileto);
-		printf("Local predileto: %s\n",atual->local_predileto);
-		printf("Hobby: %s\n",atual->hobby);
-		printf("Livro: %s\n",atual->livro);
-		printf("Esporte: %s\n",atual->esporte);
+	//	printf("Filme predileto: %s\n",atual->filme_predileto);
+	//	printf("Local predileto: %s\n",atual->local_predileto);
+	//	printf("Hobby: %s\n",atual->hobby);
+	//	printf("Livro: %s\n",atual->livro);
+	//	printf("Esporte: %s\n",atual->esporte);
 		printf("Idade: %d\n",atual->idade);
-		printf("%s\n",atual->solicitacoes);
+	//	printf("%s\n",atual->solicitacoes);
 		// printf("id: %d\n",atual->id);
         atual = atual->prox; //Indo para o proximo vértice.
 	}
@@ -329,9 +329,42 @@ VERTICE *get_prox(VERTICE *vert){
 	return vert->prox;
 }
 
+void set_filme_predileto(VERTICE *vert, char *filme){
+	free(vert->filme_predileto);
+	vert->filme_predileto = filme;
+}
+
+void set_local_predileto(VERTICE *vert, char *local){
+	free(vert->local_predileto);
+	vert->local_predileto = local;
+}
+
+void set_hobby(VERTICE *vert, char *hobby){
+	free(vert->hobby);
+	vert->hobby = hobby;
+}
+
+void set_esporte(VERTICE *vert, char *esporte){
+	free(vert->esporte);
+	vert->esporte = esporte;
+}
+
+void set_livro(VERTICE *vert, char *livro){
+	free(vert->livro);
+	vert->livro = livro;
+}
+
+void set_idade(VERTICE *vert, int idade){
+	vert->idade = idade;
+}
+
+void set_genero(VERTICE *vert, char *genero){
+	free(vert->genero);
+	vert->genero = genero;
+}
+
 void set_amizades(VERTICE *vert, char *amizades){
     vert->amizades = amizades;
-	// strcpy(vert->amizades, amizades);
 }
 
 void set_solicitacoes(VERTICE *vert, char *solicitacoes){

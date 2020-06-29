@@ -33,7 +33,7 @@ int main () {
         while (operacao != 1 && operacao != 2){
             scanf("%d", &operacao);
             if(operacao != 1 && operacao != 2){
-                printf("Opção inválida, porfavor digite novamente\n");
+                printf("Opção inválida, por favor digite novamente\n");
             }
         }
 
@@ -75,9 +75,10 @@ int main () {
             printf("4 - Solicitações\n");
             printf("5 - Adicionar amigo\n");
             printf("6 - Mostrar meu perfil\n");
-            printf("7 - Listar extrovertidos e introvertidos\n");
-            printf("8 - Logoff\n");
-            printf("9 - Sair\n");
+            printf("7 - Atualizar perfil\n");
+			printf("8 - Listar extrovertidos e introvertidos\n");
+            printf("9 - Logoff\n");
+            printf("10 - Sair\n");
             scanf("%d", &operacao);
             switch(operacao){
                 case 1:
@@ -143,7 +144,7 @@ int main () {
                         system("clear");
                         printf("Opções:\n");
                         printf("1 - Voltar para a tela inicial\n");
-                        printf("Digite o nome do usuário que deja adicionar: ");
+                        printf("Digite o nome do usuário que deseja adicionar: ");
                         scanf(" ");
                         char *target = readline(stdin);
                         if(strcmp(target, "1")==0){
@@ -163,7 +164,21 @@ int main () {
                     printVertice(find_lista_name(get_all(grafo), usuario));
                     whaitEnter();
                     break;
-                case 7:{
+				case 7:{
+			   	   	system("clear");
+					int op;
+					while(1){
+	                    printf("\nOpções:\n");
+    	                printf("1 - Atualizar algo do perfil\n");
+        	            printf("2 - Voltar para o menu\n");
+ 						scanf("%d", &op);
+						if(op == 1)
+							atualizarPerfil(grafo, usuario);
+						else break;
+					}
+					break;
+				}
+				case 8:{
                     system("clear");
                     int id_user = get_id(find_lista_name(get_all(grafo), usuario));
                     int *visitados = (int *) calloc(MAXN, sizeof(int));
@@ -176,12 +191,12 @@ int main () {
                     whaitEnter();
                     break;
                 }
-                case 8:
+                case 9:
                     free(usuario);
                     limpar_memoria_grafo(grafo);
                     usuario = NULL;
                     break;
-                case 9:
+                case 10:
                     printf("Tchau %s, até a próxima ;)\n", usuario);
                     free(usuario);
                     limpar_memoria_grafo(grafo);

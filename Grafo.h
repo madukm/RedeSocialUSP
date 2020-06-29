@@ -36,7 +36,8 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario); //Enviar solicitaç
 void printSolicitacoes(Grafo *grafo, int id); //Printar as solicitações de amizade ao usuário.
 void aceitarSolicitacao(int id, int index, Grafo *grafo); //Aceitar uma solicitação de amizade.
 void rejeitarSolicitacao(int id, int index, Grafo *grafo); //Rejeitar uma solicitação de amizade.
-int enviarSolicitacaoNome(char *user,char *target, Grafo *grafo); //Enviar solicitação pelo nome do usuário.
+int enviarSolicitacaoNome(char *user, char *target, Grafo *grafo); //Enviar solicitação pelo nome do usuário.
+void atualizarPerfil(Grafo *grafo, char *usuario); //Atualiza perfil do usuário. 
 void dfsExtroIntro(Grafo *grafo, int id_usuario, int **visitados, int **max, int **trueFriends);
 void bfsSugestao(Grafo *grafo, QUEUE *q, int id_usuario, int **visitados); //Realiza busca em largura para poder sugerir amizades ao usuário.
 void checarAmizades(Grafo *grafo, char *name); //Printar amigos e alertar nivel de afinidade alarmante.

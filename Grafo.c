@@ -182,18 +182,6 @@ char *hobby, char * livro, char *esporte, char *amigos, char *solicitacoes, char
 }
 
 /**
- * ALGORITMOS 
- */
-void dfs(Grafo *g){
-	
-}
-
-void visita_dfs(Grafo *g){
-
-}
-
-
-/**
  * Funções em relação direta com a Rede Socia (FEATURES)
  */
 
@@ -455,6 +443,67 @@ int enviarSolicitacaoNome(char *user,char *target, Grafo *grafo){
     enviarSolicitacao(grafo, get_id(aux), user);
 
     return 0;
+}
+
+//Atualiza o perfil do usuário.
+void atualizarPerfil(Grafo *grafo, char *usuario){
+	system("clear");
+	VERTICE *user = find_lista_name(grafo->all, usuario);
+	printf("-----ATUALIZAR PERFIL-----\n");
+	printf("1 - Filme predileto\n2 - Local predileto\n3 - Hobby\n4 - Livro\n5 - Esporte\n6 - Idade\n7 - Genero\n");
+	int op;
+	char *aux = NULL;
+	int idade;
+	scanf("%d", &op);
+	switch(op){
+		case 1:
+			printf("Escreva seu novo filme predileto.\n");
+			scanf("\n");
+			aux = readline(stdin);
+			set_filme_predileto(user, aux);
+			break;				
+		case 2:
+			printf("Escreva seu novo local predileto.\n");
+			scanf("\n");
+			aux = readline(stdin);
+			set_local_predileto(user, aux);
+			break;
+		case 3:
+			printf("Escreva seu novo hobby.\n");
+			scanf("\n");
+			aux = readline(stdin);
+			set_hobby(user, aux);
+			break;
+		case 4:
+		   	printf("Escreva seu novo livro.\n");
+			scanf("\n");
+		   	aux = readline(stdin);
+		   	set_livro(user, aux);
+			break;
+		case 5:
+			printf("Escreva seu novo esporte.\n");
+			scanf("\n");
+			aux = readline(stdin);
+			set_esporte(user, aux);
+			break;
+		case 6:
+		   	printf("Escreve sua idade.\n");
+			scanf("%d", &idade);
+		   	set_idade(user, idade);
+			break;	
+		case 7:
+			printf("Escreva seu novo genêro.\n");
+			scanf("\n");
+			aux = readline(stdin);
+			set_genero(user, aux);
+			break;
+		default:
+		    printf("Opção não válida.\n");
+			break;
+	}
+	writeFile(grafo);
+	if(aux!=NULL) free(aux);
+	return;
 }
 
 //Printa os usuários considerados extrovertidos e introvertidos da sua lista de amigos e de amigos de amigos e assim em diante.
