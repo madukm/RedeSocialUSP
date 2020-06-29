@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAXN 110
 
 //Lê e guarda a linha do que esta sendo inputado pelo teclado. A cada novo caractere mais memória 
 //é alocada ao buffer que guarda a leitura.

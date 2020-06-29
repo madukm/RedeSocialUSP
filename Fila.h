@@ -15,5 +15,6 @@ void pop_first(QUEUE *q); //Excluir o primeiro elemento da fila.
 ELEMENT *getNextElement(QUEUE *q); //Retorna segundo elemento da lista.
 int getFirstID(QUEUE *q); //Retorna o ID do primeiro elemento.
 int getFirstLayer(QUEUE *q); //Retorna a camada do primeiro elemento.
+int getSize(QUEUE *q); //Retorna o tamanho da queue.
 
 #endif

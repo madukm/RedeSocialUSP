@@ -181,11 +181,41 @@ char *hobby, char * livro, char *esporte, char *amigos, char *solicitacoes, char
     free(char_id);
 }
 
+/**
+ * ALGORITMOS 
+ */
+void dfs(Grafo *g){
+	
+}
+
+void visita_dfs(Grafo *g){
+
+}
+
+
+/**
+ * Funções em relação direta com a Rede Socia (FEATURES)
+ */
+
 //Registra o usuário na rede social.
 void registrar(Grafo *grafo, char **usuario){
-    printf("Escolha um nome de usuário: ");
-    scanf("\n");
-    *usuario = readline(stdin);
+   	while(1){
+		int exist = 0;
+		printf("Escolha um nome de usuário: ");
+   		scanf("\n");
+   		*usuario = readline(stdin);
+		VERTICE *curr = get_inicial(grafo->all);
+		while(curr!=NULL){
+			if(!strcmp(*usuario, get_usuario(curr))){
+				exist = 1;
+				printf("Nome de usuário já existe.\n");
+				break;
+			}
+			curr = get_prox(curr);
+		}
+		if(exist == 0) break;
+		free(curr);
+	}
 
     printf("Qual o seu gênero? ");
     scanf("\n");
@@ -336,9 +366,10 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario) {
                 whaitEnter();
                 return;
             }
+
             char aux_char[10];
             sprintf(aux_char, " %d", get_id(user));
-            strcpy(get_solicitacoes(atual), concatenar(get_solicitacoes(atual), aux_char));
+            set_solicitacoes(atual, concatenar(get_solicitacoes(atual), aux_char));
 
 			int afinidade = 0;
 	        if(!strcmp(get_livro(atual), get_livro(user))) afinidade++; 
@@ -350,10 +381,9 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario) {
             afinidade *= 20;
 
             sprintf(aux_char, " %d", afinidade);
-            strcpy(get_solicitacoes(atual), concatenar(get_solicitacoes(atual), aux_char));
+            set_solicitacoes(atual, concatenar(get_solicitacoes(atual), aux_char));
             inserir_vertex_lista(grafo->solicitacoes[id], copy_vertice(user, afinidade));
         }
-
         atual = get_prox(atual); //Indo para o proximo vértice.
 	}
 
@@ -362,7 +392,8 @@ void enviarSolicitacao(Grafo *grafo, int id, char* usuario) {
     whaitEnter();
 }
 
-void printSolicitacoes(Grafo *grafo, int id){ //Printar as solicitações de amizade ao usuário.
+//Printar as solicitacoes de amizade ao usuário.
+void printSolicitacoes(Grafo *grafo, int id){
     int contador = 0;
     VERTICE* atual = get_inicial(grafo->solicitacoes[id]); //Inicializando "atual" como o primeiro vértice da lista.
 	while (atual) { //Enquanto existir um atual, isso é, "atual != NULL"
@@ -372,7 +403,8 @@ void printSolicitacoes(Grafo *grafo, int id){ //Printar as solicitações de ami
 	}
 }
 
-void aceitarSolicitacao(int id, int index, Grafo *grafo){ //Aceitar uma solicitação de amizade.
+//Aceitar uma solicitação de amizade.
+void aceitarSolicitacao(int id, int index, Grafo *grafo){
     int contador = 0;
     VERTICE *usuario_ver = find_lista(grafo->all, id);
     VERTICE *atual = get_inicial(grafo->solicitacoes[id]); //Inicializando "atual" como o primeiro vértice da lista.
@@ -386,19 +418,20 @@ void aceitarSolicitacao(int id, int index, Grafo *grafo){ //Aceitar uma solicita
     char aux_char[20];
     sprintf(aux_char, " %d %d", get_id(atual), get_afinidade(atual));
 
-    strcpy(get_solicitacoes(usuario_ver), apagarPalavra(index, index+1, get_solicitacoes(usuario_ver)));
-    strcpy(get_amizades(usuario_ver), concatenar(get_amizades(usuario_ver), aux_char));
+    set_solicitacoes(usuario_ver, apagarPalavra(index, index+1, get_solicitacoes(usuario_ver)));
+    set_amizades((usuario_ver), concatenar(get_amizades(usuario_ver), aux_char));
 
 
     sprintf(aux_char, " %d %d", get_id(usuario_ver), get_afinidade(atual));
 
     atual = find_lista(grafo->all, get_id(atual));
-    strcpy(get_amizades(atual), concatenar(get_amizades(atual), aux_char));
+    set_amizades(atual, concatenar(get_amizades(atual), aux_char));
 
     writeFile(grafo);
 }
 
-void rejeitarSolicitacao(int id, int index, Grafo *grafo){ //Rejeitar uma solicitação de amizade.
+//Rejeitar uma solicitação de amizade.
+void rejeitarSolicitacao(int id, int index, Grafo *grafo){
     int contador = 0;
     VERTICE *usuario_ver = find_lista(grafo->all, id);
     VERTICE *atual = get_inicial(grafo->solicitacoes[id]); //Inicializando "atual" como o primeiro vértice da lista.
@@ -409,12 +442,13 @@ void rejeitarSolicitacao(int id, int index, Grafo *grafo){ //Rejeitar uma solici
 
     index *= 2;
 
-    strcpy(get_solicitacoes(usuario_ver), apagarPalavra(index, index+1, get_solicitacoes(usuario_ver)));
+    set_solicitacoes(usuario_ver, apagarPalavra(index, index+1, get_solicitacoes(usuario_ver)));
 
     writeFile(grafo);
 }
 
-int enviarSolicitacaoNome(char *user,char *target, Grafo *grafo){ //Enviar solicitação pelo nome do usuário.
+//Enviar solicitação pelo nome do usuário.
+int enviarSolicitacaoNome(char *user,char *target, Grafo *grafo){
     VERTICE *aux;
     if((aux = find_lista_name(grafo->all, target)) == NULL) return 1;
 
@@ -447,20 +481,42 @@ void extroIntro(Grafo *grafo){
 	printf("\n");
 }
 
+//Realiza busca em profundidade para poder sugerir amizades ao usuário.
+void bfsSugetao(Grafo *grafo, QUEUE *q, int id_usuario, int **visitados) {
 
-void bfsSugetao(Grafo *grafo, QUEUE *q) {
+    VERTICE *atual = get_inicial(grafo->amizades[getFirstID(q)]);
+    if((*visitados)[getFirstID(q)] == 0) {
+        (*visitados)[getFirstID(q)] = 1;
+        while(atual){
+            if((*visitados)[get_id(atual)] == 0) insert(q, get_id(atual), getFirstLayer(q)+1);
+            atual = get_prox(atual);
+        }
 
-    VERTICE *atual = grafo->amizades[getFirstID(q)]->inicial;
-    while(atual){
-        insert(q, get_id(atual), getFirstLayer(q));
-        atual = atual->prox;
+        if(getFirstLayer(q) > 1 && find_lista(grafo->solicitacoes[getFirstID(q)], id_usuario) == NULL){ //Ignorar caso seja o proprio usuário ou seus amigos.
+            VERTICE *user = find_lista(grafo->all, id_usuario);
+            VERTICE *comparador = find_lista(grafo->all, getFirstID(q));
+
+            int afinidade = 0;
+            if(!strcmp(get_livro(comparador), get_livro(user))) afinidade++; 
+            if(!strcmp(get_filme_predileto(comparador), get_filme_predileto(user))) afinidade++;
+            if(!strcmp(get_local_predileto(comparador), get_local_predileto(user))) afinidade++;
+            if(!strcmp(get_esporte(comparador), get_esporte(user))) afinidade++;
+            if(!strcmp(get_hobby(comparador), get_hobby(user))) afinidade++;
+
+            afinidade *= 20;
+
+            if(afinidade >= 0){
+                printf("ID: %d\tUsuário: %s\tAfinidade: %d%%\tCamada: %d\n", get_id(comparador), get_usuario(comparador), 
+                afinidade, getFirstLayer(q));
+            }
+        }
+
+        pop_first(q); //Excluindo o primeiro elemento da fila para poder percorrer os outros.
+
+        if(getSize(q) == 0) return; //Condição de parada.
+
+        bfsSugetao(grafo, q, id_usuario, visitados); //Recursão.
     }
-
-    pop_first(q); //Excluindo o primeiro elemento da fila para poder percorrer os outros.
-
-    if(q->size == 0) return; //Condição de parada.
-
-    wavefront(mat, q->inicial->x, q->inicial->y, q); //Recursão.
 
     return;
 }
@@ -481,3 +537,4 @@ LISTA *get_lista_solicitacoes(Grafo *g, int i){
 int get_n_elementos(Grafo *g){
 	return g->n_elementos;
 }
+

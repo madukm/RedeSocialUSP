@@ -328,3 +328,12 @@ char *get_solicitacoes(VERTICE *vert){
 VERTICE *get_prox(VERTICE *vert){
 	return vert->prox;
 }
+
+void set_amizades(VERTICE *vert, char *amizades){
+    vert->amizades = amizades;
+	// strcpy(vert->amizades, amizades);
+}
+
+void set_solicitacoes(VERTICE *vert, char *solicitacoes){
+    vert->solicitacoes = solicitacoes;
+}

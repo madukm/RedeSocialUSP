@@ -15,6 +15,7 @@
 
 #include "Grafo.h"
 #include "Lista.h"
+#include "Fila.h"
 #include "utils.h"
 
 int main () {
@@ -83,8 +84,14 @@ int main () {
             	whaitEnter();
 				break;
 			case 2:
-				system("clear");
-            	sugerirAmizades(grafo, find_lista_name(get_all(grafo), usuario));
+                system("clear");
+                int id_user = get_id(find_lista_name(get_all(grafo), usuario));
+                int *visitados = (int *) calloc(MAXN, sizeof(int));
+                QUEUE *q = criar_queue();
+                insert(q, id_user, 0);
+                bfsSugetao(grafo, q, id_user, &visitados);
+                limpar_fila(q);
+                free(visitados);
             	printf("\nOpções:\n");
             	printf("1 - Adicionar alguem\n");
             	printf("2 - Voltar para o menu\n");
@@ -94,7 +101,6 @@ int main () {
                 	printf("Digite o ID da pessoa que você quer adicionar: ");
                 	scanf("%d", &index);
                 	enviarSolicitacao(grafo, index, usuario);
-                	// printar_lista(grafo->all);
             	}
 				break;
 			case 4:

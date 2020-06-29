@@ -53,4 +53,7 @@ int get_afinidade(VERTICE *vert);
 char *get_amizades(VERTICE *vert);
 char *get_solicitacoes(VERTICE *vert);	
 
+void set_solicitacoes(VERTICE *vert, char *solicitacoes);
+void set_amizades(VERTICE *vert, char *amizades);
+
 #endif
