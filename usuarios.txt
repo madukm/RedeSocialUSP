@@ -33,10 +33,10 @@ pedidos:
 amizades: 4 40
 usuario: matheushw
 genero: masculino
-idade: 19
+idade: 18
 filme_predileto: interestelar
 local_predileto: icmc
-livro: nenhum
+livro: ishmaria
 hobby: programar
 esporte: handball
 id: 4

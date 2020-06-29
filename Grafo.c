@@ -502,7 +502,6 @@ void atualizarPerfil(Grafo *grafo, char *usuario){
 			break;
 	}
 	writeFile(grafo);
-	if(aux!=NULL) free(aux);
 	return;
 }
 

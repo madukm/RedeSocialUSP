@@ -330,27 +330,28 @@ VERTICE *get_prox(VERTICE *vert){
 }
 
 void set_filme_predileto(VERTICE *vert, char *filme){
-	free(vert->filme_predileto);
+    if(vert->filme_predileto != NULL) free(vert->filme_predileto);
 	vert->filme_predileto = filme;
 }
 
 void set_local_predileto(VERTICE *vert, char *local){
-	free(vert->local_predileto);
+    if(vert->local_predileto != NULL) free(vert->local_predileto);
 	vert->local_predileto = local;
 }
 
 void set_hobby(VERTICE *vert, char *hobby){
-	free(vert->hobby);
+    if(vert->hobby != NULL) free(vert->hobby);
 	vert->hobby = hobby;
 }
 
 void set_esporte(VERTICE *vert, char *esporte){
+    if(vert->esporte != NULL) free(vert->esporte);
 	free(vert->esporte);
 	vert->esporte = esporte;
 }
 
 void set_livro(VERTICE *vert, char *livro){
-	free(vert->livro);
+    if(vert->livro != NULL) free(vert->livro);
 	vert->livro = livro;
 }
 
@@ -359,7 +360,7 @@ void set_idade(VERTICE *vert, int idade){
 }
 
 void set_genero(VERTICE *vert, char *genero){
-	free(vert->genero);
+    if(vert->genero != NULL) free(vert->genero);
 	vert->genero = genero;
 }
 
