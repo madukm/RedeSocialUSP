@@ -29,7 +29,6 @@ void visita_dfs(Grafo *g);
 //Features rede social
 void registrar(Grafo *grafo, char **usuario); //Registar o usuário na rede social.
 void ligarAmizadesPedidos(Grafo *grafo); //Criar uma aresta entre todas as amizades e entre os pedidos.
-void sugerirAmizades(Grafo *grafo, VERTICE *vert); //Checa faz um match com usuários da rede.
 void enviarSolicitacao(Grafo *grafo, int id, char* usuario); //Enviar solicitação de amizade para um usuário.
 void printSolicitacoes(Grafo *grafo, int id); //Printar as solicitações de amizade ao usuário.
 void aceitarSolicitacao(int id, int index, Grafo *grafo); //Aceitar uma solicitação de amizade.

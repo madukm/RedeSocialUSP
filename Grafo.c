@@ -297,29 +297,6 @@ void ligarAmizadesPedidos(Grafo *grafo) {
 	}
 }
 
-// Faz um match com usuários da rede.
-void sugerirAmizades(Grafo *grafo, VERTICE *vert) {
-
-    VERTICE* atual = get_inicial(grafo->all); //Inicializando "atual" como o primeiro vértice da lista.
-	while (atual) { //Enquanto existir um atual, isso é, "atual != NULL"
-        int afinidade = 0;
-
-        if(!strcmp(get_livro(atual), get_livro(vert))) afinidade++; 
-        if(!strcmp(get_filme_predileto(atual), get_filme_predileto(vert))) afinidade++;
-        if(!strcmp(get_local_predileto(atual), get_local_predileto(vert))) afinidade++;
-        if(!strcmp(get_esporte(atual), get_esporte(vert))) afinidade++;
-        if(!strcmp(get_hobby(atual), get_hobby(vert))) afinidade++;
-
-        afinidade *= 20;
-
-        if(afinidade >= 20){
-            printf("%d - Usuário: %s\tAfinidade: %d%% \n", get_id(atual), get_usuario(atual), get_afinidade(atual));
-        }
-
-        atual = get_prox(atual); //Indo para o proximo vértice.
-	}
-}
-
 //Enviar solicitação de amizade para um usuário.
 void enviarSolicitacao(Grafo *grafo, int id, char* usuario) {
 
@@ -554,7 +531,7 @@ void bfsSugestao(Grafo *grafo, QUEUE *q, int id_usuario, int **visitados) {
 
             afinidade *= 20;
 
-            if(afinidade >= 0){
+            if(afinidade >= 70){
                 printf("ID: %d\tUsuário: %s\tAfinidade: %d%%\tCamada: %d\n", get_id(comparador), get_usuario(comparador), 
                 afinidade, getFirstLayer(q));
             }

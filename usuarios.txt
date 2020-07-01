@@ -20,7 +20,7 @@ esporte: ping pong
 id: 2
 pedidos: 
 amizades: 4 0
-usuario: bububia
+usuario: bubububia
 genero: feminino
 idade: 21
 filme_predileto: prometheus
@@ -36,7 +36,7 @@ genero: masculino
 idade: 18
 filme_predileto: interestelar
 local_predileto: icmc
-livro: ishmaria
+livro: diario de um banana
 hobby: programar
 esporte: handball
 id: 4
@@ -46,7 +46,7 @@ usuario: notolia
 genero: feminino
 idade: 19
 filme_predileto: je ne sais pas
-local_predileto: Lisbosta
+local_predileto: Paris
 livro: je ne sais pas encore
 hobby: vegana
 esporte: handball
@@ -59,8 +59,8 @@ idade: 19
 filme_predileto: interestelar
 local_predileto: iguatu
 livro: diario de um banana
-hobby: peidar
-esporte: cagar
+hobby: ler
+esporte: handball
 id: 6
 pedidos: 
 amizades: 4 20
