@@ -128,8 +128,6 @@ int main () {
                         scanf("%d", &index);
                         aceitarSolicitacao(get_id(user_vertice), index, grafo);
                         whaitEnter();
-                        // enviarSolicitacao(grafo, index, usuario);
-                        // printar_lista(grafo->all);
                     } else if(subOperacao == 2){
                         int index;
                         printf("Digite o índice correspondente a solicitação que você deseja rejeitar: ");

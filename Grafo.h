@@ -19,8 +19,6 @@ void writeFile(Grafo *grafo); //Escrever dados atualizados no arquivo.
 void print_grafo(Grafo* a); //Imprimir a matriz de adjacência.
 
 //Vértices e ligações
-void ligar_vertices(Grafo* a, VERTICE *u, VERTICE *v); //Ligar dois vértices.
-void desligar_vertices(Grafo* a, int u, int v); //Retira ligação entre dois vértices.
 void limpar_atributos(char *usuario, char *genero, char *filme_predileto , char *local_predileto,
 char *hobby, char * livro, char *esporte, char *amigos, char *solicitacoes, char *char_idade, char *char_id); //Limpar memória.
 

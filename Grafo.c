@@ -153,19 +153,9 @@ void print_grafo(Grafo* a) {
     }
 }
 
-//TODO: Arrumar essas duas funções
-//Ligar dois vértices.
-void ligar_vertices(Grafo* a, VERTICE *u, VERTICE *v){
-	//inserir_vertex_lista(a->v[v->id], u);  //Criando uma aresta que vai do vértice "u" até o "v".
-    //inserir_vertex_lista(a->v[u->id], v); //Reciprocidade.
-}
-
-//Quebrar ligação entre dois vértices.
-void desligar_vertices(Grafo* a, int u, int v){
-	//excluir_lista(a->v[v], u); //Excluindo a aresta que vai do vértice "u" até o "v".
-    //excluir_lista(a->v[u], v); //Reciprocidade.
-}
-
+/**
+ * Limpar atributos de VERTICE
+ */
 void limpar_atributos(char *usuario, char *genero, char *filme_predileto , char *local_predileto,
 char *hobby, char * livro, char *esporte, char *amigos, char *solicitacoes, char *char_idade, char *char_id){ //Limpar memória.
     free(usuario);

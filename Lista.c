@@ -92,14 +92,7 @@ void printar_lista(LISTA* list) {
 		printf("--------------------------------------\n");
 		printf("Usuário: %s\n",atual->usuario);
 		printf("Gênero: %s\n",atual->genero);
-	//	printf("Filme predileto: %s\n",atual->filme_predileto);
-	//	printf("Local predileto: %s\n",atual->local_predileto);
-	//	printf("Hobby: %s\n",atual->hobby);
-	//	printf("Livro: %s\n",atual->livro);
-	//	printf("Esporte: %s\n",atual->esporte);
 		printf("Idade: %d\n",atual->idade);
-	//	printf("%s\n",atual->solicitacoes);
-		// printf("id: %d\n",atual->id);
         atual = atual->prox; //Indo para o proximo vértice.
 	}
     printf("\n");
